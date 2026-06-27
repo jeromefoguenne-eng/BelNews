@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BelNews 📰 - Serious Game de Gestion Éditoriale</title>
+  <!-- SEO & Meta Tags -->
+  <meta name="description" content="BelNews est un jeu sérieux satirique et cynique d'éducation aux médias où vous incarnez un CM de presse belge cherchant le buzz à tout prix.">
+  
+  <!-- Google Fonts: Merriweather (Presse) et Outfit (Interface moderne) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <!-- APP CONTAINER -->
+  <div id="app-container">
+    
+    <!-- HEADER / DASHBOARD -->
+    <header id="main-header">
+      <div class="header-logo">
+        <span class="logo-emoji">📰</span>
+        <h1>BelNews</h1>
+        <span class="logo-tagline">L'info qui clique.</span>
+      </div>
+      
+      <!-- INDICATOR GAUGES -->
+      <div id="dashboard-stats">
+        <div class="stat-gauge" id="stat-subscribers-container" title="Nombre total d'abonnés au journal.">
+          <div class="stat-header">
+            <span class="stat-icon">👥</span>
+            <span class="stat-label">Abonnés</span>
+            <span class="stat-value" id="val-subscribers">100</span>
+          </div>
+          <div class="gauge-bar-outer">
+            <div class="gauge-bar-inner" id="gauge-subscribers" style="width: 20%;"></div>
+            <div class="gauge-goal-line" id="goal-subscribers-line"></div>
+          </div>
+          <div class="stat-footer">Objectif Niveau : <span id="val-goal-subscribers">500</span></div>
+        </div>
+
+        <div class="stat-gauge" id="stat-credibility-container" title="Confiance du public. Chute en cas de putaclic excessif ou fake news.">
+          <div class="stat-header">
+            <span class="stat-icon">🛡️</span>
+            <span class="stat-label">Crédibilité</span>
+            <span class="stat-value" id="val-credibility">100%</span>
+          </div>
+          <div class="gauge-bar-outer">
+            <div class="gauge-bar-inner credibility-high" id="gauge-credibility" style="width: 100%;"></div>
+          </div>
+        </div>
+
+        <div class="stat-gauge" id="stat-revenue-container" title="Revenus publicitaires générés par vos abonnés.">
+          <div class="stat-header">
+            <span class="stat-icon">💶</span>
+            <span class="stat-label">Revenus Pubs</span>
+            <span class="stat-value" id="val-revenue">1 200 €</span>
+          </div>
+          <div class="gauge-bar-outer">
+            <div class="gauge-bar-inner" id="gauge-revenue" style="width: 30%;"></div>
+          </div>
+        </div>
+
+        <div class="stat-gauge" id="stat-boss-pressure-container" title="Pression exercée par le patron. Monte en cas d'audience faible.">
+          <div class="stat-header">
+            <span class="stat-icon">🔥</span>
+            <span class="stat-label">Pression Patron</span>
+            <span class="stat-value" id="val-boss-pressure">0%</span>
+          </div>
+          <div class="gauge-bar-outer">
+            <div class="gauge-bar-inner" id="gauge-boss-pressure" style="width: 0%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LEVEL & DAY DISPLAY -->
+      <div id="level-display">
+        <div class="badge-role" id="val-level-title">Stagiaire</div>
+        <div class="badge-day">Jour <span id="val-current-day">1</span>/<span id="val-total-days">3</span></div>
+      </div>
+    </header>
+
+    <!-- MAIN INTERACTIVE LAYOUT -->
+    <main id="main-content">
+      
+      <!-- COLUMN 1: INBOX (DÉPÊCHES DU JOUR) -->
+      <section class="content-col" id="col-inbox">
+        <div class="col-header">
+          <h2>📥 Dépêches Reçues</h2>
+          <span class="badge-counter" id="inbox-counter">0</span>
+        </div>
+        <div class="scrollable-container" id="inbox-cards-list">
+          <!-- Les cartes de dépêches seront insérées dynamiquement en JS -->
+        </div>
+      </section>
+
+      <!-- COLUMN 2: LA UNE DU JOURNAL -->
+      <section class="content-col" id="col-editor">
+        <div class="col-header">
+          <h2>📰 La Une du Jour</h2>
+          <span class="badge-counter" id="une-counter">0 / 3</span>
+        </div>
+        
+        <!-- Drop slots container -->
+        <div id="une-slots-container">
+          <div class="une-slot" data-slot="1">
+            <span class="slot-number">1</span>
+            <span class="slot-placeholder-text">Glissez le GROS TITRE principal ici</span>
+          </div>
+          <div class="une-slot" data-slot="2">
+            <span class="slot-number">2</span>
+            <span class="slot-placeholder-text">Glissez l'ACTU SECONDAIRE ici</span>
+          </div>
+          <div class="une-slot" data-slot="3">
+            <span class="slot-number">3</span>
+            <span class="slot-placeholder-text">Glissez la DÉPÊCHE RAPIDE / INSOLITE ici</span>
+          </div>
+        </div>
+
+        <button id="btn-publish" class="btn-disabled" disabled>
+          🚀 PUBLIER LE JOURNAL
+        </button>
+
+        <!-- Ignored / unselected list -->
+        <div id="ignored-news-panel">
+          <h3>🗑️ Non Publiés / Mis de côté</h3>
+          <div id="ignored-cards-list" class="ignored-list-empty">
+            <span class="empty-list-text">Les articles non sélectionnés s'accumuleront ici.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- COLUMN 3: LE FIL SOCIAL SIMULÉ (BELGOGRAM) -->
+      <section class="content-col" id="col-social">
+        <div class="col-header font-serif">
+          <h2>📱 Belgogram</h2>
+          <span class="social-live-indicator">● LIVE</span>
+        </div>
+        
+        <div class="scrollable-container" id="social-feed-list">
+          <div id="social-placeholder">
+            <div class="placeholder-social-icon">💬</div>
+            <p>Le fil social s'activera dès la publication de votre journal.</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- BOTTOM BAR: PATRON CHAT POPUP -->
+    <div id="boss-chat-widget" class="chat-collapsed">
+      <div id="boss-chat-header">
+        <span class="boss-status-dot">●</span>
+        <span class="boss-avatar">👨‍💼</span>
+        <span class="boss-title">Directeur BelNews</span>
+        <span class="boss-toggle-icon">▲</span>
+      </div>
+      <div id="boss-chat-body">
+        <div class="chat-bubble boss-bubble" id="boss-message-text">
+          Trouve-moi des clics pour aujourd'hui, gamin. On n'est pas un organisme de charité.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==================== OVERLAYS & MODALS ==================== -->
+
+  <!-- 1. START GAME MODAL -->
+  <div class="modal-overlay" id="modal-start">
+    <div class="modal-card">
+      <h1 class="font-serif">BelNews</h1>
+      <h2 class="subtitle-satire">Serious Game de Cynisme Éditorial</h2>
+      <div class="modal-body-content">
+        <p>Bienvenue chez <strong>BelNews</strong>, le quotidien numérique belge le plus visité de l'Internet.</p>
+        
+        <blockquote>
+          "Chez nous, le clic n'est pas une statistique. C'est notre raison d'être. Si l'information est vraie, tant mieux. Si elle est fausse mais qu'elle fait réagir, c'est encore mieux."<br>
+          <cite>— Jean-Jacques, Directeur de la Rédaction</cite>
+        </blockquote>
+
+        <p><strong>Votre Mission :</strong> Atteindre les objectifs d'abonnés fixés par le patron à chaque niveau. Pour cela, triez les dépêches belges quotidiennes et publiez-en exactement 3. Adaptez les titres pour forcer le clic. N'oubliez pas, l'éthique ne paie pas le loyer... du moins officiellement.</p>
+        
+        <div class="difficulty-selection">
+          <h3>Choisissez votre niveau de difficulté :</h3>
+          <div class="difficulty-options">
+            <button class="btn-diff active" data-difficulty="1">
+              <strong>Stagiaire</strong>
+              <span>Objectifs indulgents, patron patient, leçons faciles.</span>
+            </button>
+            <button class="btn-diff" data-difficulty="2">
+              <strong>Normal</strong>
+              <span>Pression standard, équilibre difficile, concurrence active.</span>
+            </button>
+            <button class="btn-diff" data-difficulty="3">
+              <strong>Expert</strong>
+              <span>Objectifs brutaux, patron tyrannique, fake news toxiques.</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <button class="btn-primary" id="btn-start-game">
+        💼 ENTRER DANS LA RÉDACTION
+      </button>
+    </div>
+  </div>
+
+  <!-- 2. DAY SUMMARY MODAL -->
+  <div class="modal-overlay hidden" id="modal-day-summary">
+    <div class="modal-card">
+      <h2 class="font-serif">Fin de la journée <span id="summary-day-num">1</span></h2>
+      <div class="summary-grid">
+        <div class="summary-left">
+          <div class="summary-dialogue-box">
+            <div class="boss-large-avatar">👨‍💼</div>
+            <div>
+              <h4 id="boss-name-label">Jean-Jacques (Le Patron)</h4>
+              <p id="summary-boss-speech">Pas trop mal pour aujourd'hui, gamin.</p>
+            </div>
+          </div>
+          
+          <div class="day-stats-report">
+            <h3>Rapport d'Audience</h3>
+            <ul>
+              <li>Abonnés gagnés : <strong class="color-success" id="stat-day-subs-gained">+0</strong></li>
+              <li>Revenus publicitaires : <strong id="stat-day-rev-gained">+0 €</strong></li>
+              <li>Crédibilité : <strong id="stat-day-credibility">100%</strong></li>
+              <li>Progression niveau : <strong id="stat-day-progress">0%</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="summary-right">
+          <h3>Publications du Jour</h3>
+          <div id="summary-publications-list">
+            <!-- Liste des 3 articles publiés et comment ils ont été édités -->
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-primary" id="btn-next-day">
+          Continuer la partie ➡️
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. FIRING MODAL (GAME OVER) -->
+  <div class="modal-overlay hidden" id="modal-firing">
+    <div class="modal-card modal-border-danger">
+      <h2 class="font-serif color-danger">⚠️ AVERTISSEMENT DE LICENCIEMENT</h2>
+      
+      <div class="firing-letter">
+        <div class="letter-header">
+          <strong>BelNews S.A.</strong><br>
+          Service des Ressources Humaines<br>
+          Bruxelles, le <span class="current-date-fictive">27 Juin 2026</span>
+        </div>
+        <div class="letter-body">
+          <p id="firing-letter-text">Monsieur/Madame,</p>
+        </div>
+      </div>
+
+      <div class="boss-firing-comment">
+        <div class="boss-large-avatar">👨‍💼</div>
+        <p id="boss-firing-speech">"Je t'avais dit que les clics étaient indispensables. Tu as voulu jouer au journaliste éthique, va faire ça ailleurs."</p>
+      </div>
+
+      <button class="btn-primary btn-danger" id="btn-restart-game">
+        🔄 RECOMMENCER UNE PARTIE
+      </button>
+    </div>
+  </div>
+
+  <!-- 4. FINAL DEBRIEF MODAL (PEDAGOGIQUE) -->
+  <div class="modal-overlay hidden" id="modal-debrief">
+    <div class="modal-card debrief-card">
+      <h1 class="font-serif text-center">📊 Débriefing Pédagogique Final</h1>
+      <h2 class="text-center subtitle-satire">L'effet miroir : Ce que vos clics révèlent</h2>
+      
+      <div class="debrief-grid">
+        
+        <!-- Radar-like style card -->
+        <div class="debrief-block" id="debrief-style">
+          <h3>Votre Profil Éditorial</h3>
+          <div class="radar-placeholder">
+            <div class="radar-score-bar" id="radar-sensationalism" style="width: 80%;">
+              <span>Sensationnalisme / Putaclic : <strong id="val-debrief-sensationalism">80%</strong></span>
+            </div>
+            <div class="radar-score-bar" id="radar-rigor" style="width: 20%;">
+              <span>Rigueur / Crédibilité : <strong id="val-debrief-rigor">20%</strong></span>
+            </div>
+            <div class="radar-score-bar" id="radar-proximity" style="width: 50%;">
+              <span>Proximité géographique : <strong id="val-debrief-proximity">50%</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hidden ethics score revealed -->
+        <div class="debrief-block" id="debrief-ethics">
+          <h3>La Jauge Éthique Cachée</h3>
+          <div class="ethics-reveal-box">
+            <span class="ethics-emoji" id="debrief-ethics-emoji">😈</span>
+            <div class="ethics-score-label">Votre score éthique : <strong id="val-debrief-ethics">0 / 100</strong></div>
+            <p id="debrief-ethics-verdict">Vous êtes un CM totalement dénué de scrupules. Le patron vous adore, mais le débat démocratique est en ruine.</p>
+          </div>
+        </div>
+
+        <!-- Ignored important stories -->
+        <div class="debrief-block full-width" id="debrief-ignored">
+          <h3>Les actualités importantes que vous avez délibérément ignorées</h3>
+          <div id="debrief-ignored-list">
+            <!-- Liste des articles fiables ignorés au profit du buzz -->
+          </div>
+        </div>
+
+        <!-- Class discussion questions -->
+        <div class="debrief-block full-width" id="debrief-questions">
+          <h3>Questions pour le débat en classe</h3>
+          <ul class="class-debate-list">
+            <li>Le jeu vous a-t-il mis·e à l'aise avec vos choix éditoriaux ? À quel moment avez-vous le plus hésité ?</li>
+            <li>Comment le système de score (les jauges d'abonnés et la pression du patron) vous a-t-il incité·e à ignorer votre propre jugement ?</li>
+            <li>En quoi ce décalage illustre-t-il le modèle économique actuel des médias de presse en ligne financés par la publicité ?</li>
+            <li>La réécriture d'un titre peut-elle être considérée comme une forme de désinformation, même si l'article de base est vrai ?</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="modal-footer text-center">
+        <button class="btn-primary" id="btn-debrief-replay">
+          🔄 REJOUER POUR CHANGER DE STYLE
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOAD JAVASCRIPT FILES (Order is critical) -->
+  <!-- 1. Data Configs -->
+  <script src="data/levels.js"></script>
+  <script src="data/patron.js"></script>
+  <script src="data/news.js"></script>
+  <!-- 2. Logic & Engine -->
+  <script src="js/state.js"></script>
+  <script src="js/scoring.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/game.js"></script>
+  <!-- 3. Bootstrapper -->
+  <script src="js/app.js"></script>
+</body>
+</html>
