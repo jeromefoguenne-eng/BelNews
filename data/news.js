@@ -13,7 +13,7 @@ window.BelNewsPool = [
     exclusivity: false,
     timeRemaining: 2,
     mediaType: "photo",
-    mediaTheme: "linear-gradient(135deg, #1e293b, #0f172a)",
+    mediaTheme: "assets/media/politics.png",
     impact: { subscribers: 150, credibility: 5, ethics: 10 },
     clickbaitImpact: { subscribers: 600, credibility: -15, ethics: -10 }
   },
@@ -30,7 +30,7 @@ window.BelNewsPool = [
     exclusivity: true,
     timeRemaining: 1,
     mediaType: "gif",
-    mediaTheme: "linear-gradient(135deg, #78350f, #451a03)",
+    mediaTheme: "assets/media/incident.png",
     impact: { subscribers: 250, credibility: 0, ethics: 5 },
     clickbaitImpact: { subscribers: 850, credibility: -10, ethics: -5 }
   },
@@ -47,7 +47,7 @@ window.BelNewsPool = [
     exclusivity: false,
     timeRemaining: 1,
     mediaType: "video",
-    mediaTheme: "linear-gradient(135deg, #0284c7, #0369a1)",
+    mediaTheme: "assets/media/incident.png",
     impact: { subscribers: 200, credibility: 10, ethics: 15 },
     clickbaitImpact: { subscribers: 900, credibility: -20, ethics: -10 }
   },
@@ -64,7 +64,7 @@ window.BelNewsPool = [
     exclusivity: false,
     timeRemaining: 2,
     mediaType: "photo",
-    mediaTheme: "linear-gradient(135deg, #ca8a04, #854d0e)",
+    mediaTheme: "assets/media/tech.png",
     impact: { subscribers: 100, credibility: 5, ethics: 8 },
     clickbaitImpact: { subscribers: 750, credibility: -25, ethics: -15 }
   },
@@ -76,12 +76,12 @@ window.BelNewsPool = [
     category: "Faits Divers",
     reliability: 10,
     source: "Rumeur Facebook",
-    emoji: " Fountain",
+    emoji: "⛲",
     proximity: 90,
     exclusivity: false,
     timeRemaining: 2,
     mediaType: "photo",
-    mediaTheme: "linear-gradient(135deg, #dc2626, #991b1b)",
+    mediaTheme: "assets/media/incident.png",
     impact: { subscribers: 400, credibility: -30, ethics: -20 },
     clickbaitImpact: { subscribers: 1200, credibility: -60, ethics: -40 }
   },
@@ -98,7 +98,7 @@ window.BelNewsPool = [
     exclusivity: false,
     timeRemaining: 3,
     mediaType: "video",
-    mediaTheme: "linear-gradient(135deg, #0d9488, #115e59)",
+    mediaTheme: "assets/media/tech.png",
     impact: { subscribers: 80, credibility: 15, ethics: 20 },
     clickbaitImpact: { subscribers: 1400, credibility: -80, ethics: -60 }
   },
@@ -115,7 +115,7 @@ window.BelNewsPool = [
     exclusivity: false,
     timeRemaining: 1,
     mediaType: "gif",
-    mediaTheme: "linear-gradient(135deg, #b91c1c, #7f1d1d)",
+    mediaTheme: "assets/media/sports.png",
     impact: { subscribers: 300, credibility: 2, ethics: 5 },
     clickbaitImpact: { subscribers: 950, credibility: -5, ethics: -5 }
   },
@@ -132,7 +132,7 @@ window.BelNewsPool = [
     exclusivity: false,
     timeRemaining: 3,
     mediaType: "video",
-    mediaTheme: "linear-gradient(135deg, #2563eb, #1e3a8a)",
+    mediaTheme: "assets/media/tech.png",
     impact: { subscribers: 180, credibility: 5, ethics: 10 },
     clickbaitImpact: { subscribers: 750, credibility: -15, ethics: -10 }
   },
@@ -149,7 +149,7 @@ window.BelNewsPool = [
     exclusivity: false,
     timeRemaining: 2,
     mediaType: "gif",
-    mediaTheme: "linear-gradient(135deg, #d97706, #78350f)",
+    mediaTheme: "assets/media/tech.png",
     impact: { subscribers: 350, credibility: -40, ethics: -30 },
     clickbaitImpact: { subscribers: 1500, credibility: -90, ethics: -50 }
   },
@@ -166,7 +166,7 @@ window.BelNewsPool = [
     exclusivity: false,
     timeRemaining: 2,
     mediaType: "photo",
-    mediaTheme: "linear-gradient(135deg, #4f46e5, #3730a3)",
+    mediaTheme: "assets/media/politics.png",
     impact: { subscribers: 120, credibility: 10, ethics: 12 },
     clickbaitImpact: { subscribers: 680, credibility: -10, ethics: -5 }
   },
@@ -183,7 +183,7 @@ window.BelNewsPool = [
     exclusivity: true,
     timeRemaining: 3,
     mediaType: "video",
-    mediaTheme: "linear-gradient(135deg, #7c3aed, #5b21b6)",
+    mediaTheme: "assets/media/tech.png",
     impact: { subscribers: 220, credibility: 2, ethics: 5 },
     clickbaitImpact: { subscribers: 780, credibility: -8, ethics: -5 }
   },
@@ -200,7 +200,7 @@ window.BelNewsPool = [
     exclusivity: false,
     timeRemaining: 1,
     mediaType: "photo",
-    mediaTheme: "linear-gradient(135deg, #059669, #065f46)",
+    mediaTheme: "assets/media/tech.png",
     impact: { subscribers: 190, credibility: 5, ethics: 8 },
     clickbaitImpact: { subscribers: 800, credibility: -20, ethics: -10 }
   },
@@ -217,7 +217,7 @@ window.BelNewsPool = [
     exclusivity: true,
     timeRemaining: 2,
     mediaType: "photo",
-    mediaTheme: "linear-gradient(135deg, #0891b2, #075985)",
+    mediaTheme: "assets/media/politics.png",
     impact: { subscribers: 200, credibility: 5, ethics: 10 },
     clickbaitImpact: { subscribers: 750, credibility: -12, ethics: -10 }
   },
@@ -234,7 +234,7 @@ window.BelNewsPool = [
     exclusivity: false,
     timeRemaining: 1,
     mediaType: "gif",
-    mediaTheme: "linear-gradient(135deg, #57534e, #292524)",
+    mediaTheme: "assets/media/incident.png",
     impact: { subscribers: 240, credibility: 2, ethics: 5 },
     clickbaitImpact: { subscribers: 890, credibility: -10, ethics: -5 }
   },
@@ -251,7 +251,7 @@ window.BelNewsPool = [
     exclusivity: false,
     timeRemaining: 1,
     mediaType: "photo",
-    mediaTheme: "linear-gradient(135deg, #dc2626, #b91c1c)",
+    mediaTheme: "assets/media/incident.png",
     impact: { subscribers: 500, credibility: -60, ethics: -40 },
     clickbaitImpact: { subscribers: 1800, credibility: -110, ethics: -70 }
   },
@@ -268,7 +268,7 @@ window.BelNewsPool = [
     exclusivity: false,
     timeRemaining: 3,
     mediaType: "video",
-    mediaTheme: "linear-gradient(135deg, #15803d, #14532d)",
+    mediaTheme: "assets/media/tech.png",
     impact: { subscribers: 130, credibility: 8, ethics: 10 },
     clickbaitImpact: { subscribers: 690, credibility: -15, ethics: -8 }
   },
@@ -285,7 +285,7 @@ window.BelNewsPool = [
     exclusivity: true,
     timeRemaining: 3,
     mediaType: "photo",
-    mediaTheme: "linear-gradient(135deg, #475569, #334155)",
+    mediaTheme: "assets/media/tech.png",
     impact: { subscribers: 170, credibility: 12, ethics: 10 },
     clickbaitImpact: { subscribers: 720, credibility: -5, ethics: -5 }
   },
@@ -302,7 +302,7 @@ window.BelNewsPool = [
     exclusivity: false,
     timeRemaining: 2,
     mediaType: "gif",
-    mediaTheme: "linear-gradient(135deg, #ea580c, #9a3412)",
+    mediaTheme: "assets/media/incident.png",
     impact: { subscribers: 220, credibility: 10, ethics: 15 },
     clickbaitImpact: { subscribers: 880, credibility: -20, ethics: -10 }
   },
@@ -319,7 +319,7 @@ window.BelNewsPool = [
     exclusivity: false,
     timeRemaining: 2,
     mediaType: "video",
-    mediaTheme: "linear-gradient(135deg, #1e3a8a, #0f172a)",
+    mediaTheme: "assets/media/politics.png",
     impact: { subscribers: 110, credibility: 8, ethics: 10 },
     clickbaitImpact: { subscribers: 650, credibility: -15, ethics: -5 }
   },
@@ -336,7 +336,7 @@ window.BelNewsPool = [
     exclusivity: false,
     timeRemaining: 3,
     mediaType: "photo",
-    mediaTheme: "linear-gradient(135deg, #db2777, #9d174d)",
+    mediaTheme: "assets/media/tech.png",
     impact: { subscribers: 140, credibility: 5, ethics: 8 },
     clickbaitImpact: { subscribers: 820, credibility: -30, ethics: -20 }
   },
@@ -353,7 +353,7 @@ window.BelNewsPool = [
     exclusivity: false,
     timeRemaining: 1,
     mediaType: "gif",
-    mediaTheme: "linear-gradient(135deg, #16a34a, #166534)",
+    mediaTheme: "assets/media/sports.png",
     impact: { subscribers: 280, credibility: 5, ethics: 5 },
     clickbaitImpact: { subscribers: 910, credibility: -5, ethics: -5 }
   },
@@ -370,7 +370,7 @@ window.BelNewsPool = [
     exclusivity: true,
     timeRemaining: 2,
     mediaType: "video",
-    mediaTheme: "linear-gradient(135deg, #4f46e5, #312e81)",
+    mediaTheme: "assets/media/tech.png",
     impact: { subscribers: 160, credibility: 8, ethics: 10 },
     clickbaitImpact: { subscribers: 730, credibility: -15, ethics: -10 }
   },
@@ -387,7 +387,7 @@ window.BelNewsPool = [
     exclusivity: false,
     timeRemaining: 2,
     mediaType: "photo",
-    mediaTheme: "linear-gradient(135deg, #ea580c, #7c2d12)",
+    mediaTheme: "assets/media/incident.png",
     impact: { subscribers: 300, credibility: -35, ethics: -25 },
     clickbaitImpact: { subscribers: 1350, credibility: -70, ethics: -35 }
   },
@@ -404,7 +404,7 @@ window.BelNewsPool = [
     exclusivity: false,
     timeRemaining: 2,
     mediaType: "photo",
-    mediaTheme: "linear-gradient(135deg, #059669, #047857)",
+    mediaTheme: "assets/media/politics.png",
     impact: { subscribers: 180, credibility: 5, ethics: 10 },
     clickbaitImpact: { subscribers: 780, credibility: -15, ethics: -10 }
   }

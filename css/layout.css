@@ -179,6 +179,15 @@
 #col-editor {
   width: 38%;
   background-color: rgba(0, 0, 0, 0.1);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#editor-workspace {
+  flex: 1;
+  overflow-y: auto;
   padding: 20px;
 }
 
@@ -186,6 +195,15 @@
   width: 30%;
   border-right: none;
 }
+
+
+
+
+
+
+
+
+
 
 .col-header {
   display: flex;
@@ -1344,6 +1362,448 @@
   border: 1px solid var(--color-primary);
   letter-spacing: 0.5px;
 }
+
+/* ==================== SMARTPHONE MOCKUP (BELGOGRAM CHASSIS) ==================== */
+#phone-mockup {
+  position: relative;
+  width: 90%;
+  max-width: 380px;
+  height: calc(100vh - 120px);
+  margin: 10px auto;
+  border: 12px solid #1e2026;
+  border-radius: 40px;
+  background-color: #090a0f;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 5;
+}
+
+#phone-notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 20px;
+  background-color: #1e2026;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  z-index: 100;
+}
+
+#phone-status-bar {
+  height: 25px;
+  background-color: rgba(9, 10, 15, 0.95);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  user-select: none;
+  padding-top: 5px;
+  z-index: 90;
+}
+
+#phone-screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+#phone-app-header {
+  height: 48px;
+  background-color: rgba(15, 17, 26, 0.98);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+  z-index: 80;
+}
+
+.phone-app-logo {
+  font-family: var(--font-serif);
+  font-weight: 800;
+  font-size: 1.15rem;
+  background: linear-gradient(45deg, var(--color-primary), #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.phone-app-icons {
+  display: flex;
+  gap: 12px;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.phone-notif-bell {
+  position: relative;
+}
+
+.phone-bell-badge {
+  position: absolute;
+  top: -4px;
+  right: -5px;
+  background-color: var(--color-primary);
+  color: #fff;
+  font-size: 0.55rem;
+  font-weight: 800;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ==================== STORIES ROW ==================== */
+#phone-stories-container {
+  display: flex;
+  gap: 12px;
+  padding: 10px 15px;
+  background-color: #0f111a;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  overflow-x: auto;
+  scrollbar-width: none; /* Hide scrollbar for clean UI */
+}
+
+#phone-stories-container::-webkit-scrollbar {
+  display: none;
+}
+
+.story-circle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.story-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  padding: 2.5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  border: 2px solid #0f111a;
+}
+
+.story-circle.active .story-avatar {
+  background: linear-gradient(45deg, #10b981, #06b6d4);
+}
+
+.story-circle span {
+  font-size: 0.65rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  max-width: 50px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* ==================== SATIRICAL LOCAL ADS ==================== */
+.social-ad {
+  background: linear-gradient(135deg, rgba(20, 25, 40, 0.95), rgba(10, 12, 20, 0.95));
+  border: 1px dashed #ca8a04;
+  border-radius: var(--border-radius-md);
+  margin-bottom: 15px;
+  padding: 12px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  animation: postSlideIn 0.4s ease-out;
+}
+
+.social-ad-badge {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background-color: rgba(202, 138, 4, 0.15);
+  border: 1.5px solid #ca8a04;
+  color: #ca8a04;
+  font-size: 0.6rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: var(--border-radius-sm);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.social-ad-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.social-ad-avatar {
+  font-size: 1.3rem;
+  margin-right: 8px;
+}
+
+.social-ad-sponsor {
+  font-weight: 800;
+  font-size: 0.8rem;
+  color: #ca8a04;
+}
+
+.social-ad-content p {
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+
+.social-ad-media {
+  height: 90px;
+  border-radius: var(--border-radius-sm);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.2rem;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+  margin-bottom: 8px;
+}
+
+.social-ad-btn {
+  display: block;
+  text-align: center;
+  width: 100%;
+  padding: 6px;
+  background-color: #ca8a04;
+  color: #000;
+  font-weight: 800;
+  font-size: 0.75rem;
+  border-radius: var(--border-radius-sm);
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+/* ==================== SIMULATED SMARTPHONE PUSH NOTIFICATIONS ==================== */
+.phone-notification {
+  position: absolute;
+  top: 35px;
+  left: 5%;
+  width: 90%;
+  background-color: rgba(25, 28, 41, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--border-radius-md);
+  padding: 10px 12px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+  z-index: 1000;
+  transform: translateY(-100px);
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
+}
+
+.phone-notification.show-notif {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.notif-app-icon {
+  font-size: 1.2rem;
+}
+
+.notif-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.notif-title {
+  font-weight: 800;
+  font-size: 0.75rem;
+  color: var(--color-text);
+  display: flex;
+  justify-content: space-between;
+}
+
+.notif-time {
+  font-size: 0.6rem;
+  color: var(--color-text-muted);
+}
+
+.notif-desc {
+  font-size: 0.7rem;
+  line-height: 1.25;
+  color: var(--color-text-muted);
+}
+
+/* ==================== BOSS GEANT PEATING PORTRAIT ==================== */
+#boss-portrait-container {
+  position: absolute;
+  bottom: 100%;
+  right: 15px;
+  width: 140px;
+  height: 160px;
+  pointer-events: none;
+  z-index: -1;
+  overflow: visible;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#boss-character-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 15px rgba(0,0,0,0.8));
+  transform: translateY(35px);
+  transition: transform 0.4s ease-out;
+}
+
+/* Boss pop up states when chat expands/vibrates */
+#boss-chat-widget.chat-collapsed #boss-portrait-container {
+  transform: scale(0.6) translateY(110px);
+}
+
+#boss-chat-widget:not(.chat-collapsed) #boss-portrait-container #boss-character-img {
+  transform: translateY(0px) scale(1.05);
+}
+
+/* ==================== ONBOARDING RULES WINDOW ==================== */
+.onboarding-card {
+  max-width: 780px !important;
+  max-height: 95vh;
+  overflow-y: auto;
+  border: 1px solid var(--color-border-active);
+  box-shadow: 0 0 35px rgba(255, 45, 85, 0.15);
+}
+
+.rules-introduction {
+  margin-bottom: 15px;
+}
+
+.pedagogical-framing {
+  background-color: rgba(59, 130, 246, 0.08);
+  border-left: 3px solid var(--color-info);
+  padding: 8px 12px;
+  border-radius: var(--border-radius-sm);
+  font-size: 0.8rem;
+  color: #93c5fd;
+}
+
+.onboarding-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 20px;
+  margin: 15px 0;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  padding: 15px 0;
+}
+
+.onboarding-step h3, .onboarding-jauges h3 {
+  font-size: 0.9rem;
+  color: var(--color-text);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.onboarding-step ol {
+  padding-left: 18px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.badge-rules {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 1px 4px;
+  border-radius: 3px;
+  display: inline-block;
+  margin: 2px 0;
+}
+
+.onboarding-jauges ul {
+  list-style: none;
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.onboarding-jauges li {
+  line-height: 1.35;
+}
+
+.onboarding-jauges li strong {
+  color: var(--color-text);
+}
+
+.boss-onboarding-quote {
+  font-family: var(--font-serif);
+  background-color: var(--color-boss-bg);
+  border: 1px solid var(--color-boss-border);
+  border-radius: var(--border-radius-md);
+  padding: 12px 15px;
+  font-size: 0.82rem;
+  color: var(--color-boss-text);
+  margin-bottom: 15px;
+  font-style: italic;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.boss-onboarding-quote cite {
+  text-align: right;
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+/* Debrief dynamic pedagogical impacts styling */
+.debrief-impact-item {
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.debrief-impact-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: 0.8rem;
+}
+
+.debrief-impact-title {
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+.debrief-impact-desc {
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--color-text-muted);
+}
+
 
 
 

@@ -107,31 +107,33 @@
           <span class="badge-counter" id="une-counter">0 / 3</span>
         </div>
         
-        <!-- Drop slots container -->
-        <div id="une-slots-container">
-          <div class="une-slot" data-slot="1">
-            <span class="slot-number">1</span>
-            <span class="slot-placeholder-text">Glissez le GROS TITRE principal ici</span>
+        <!-- Scrolling workspace container for Une slots -->
+        <div class="scrollable-container" id="editor-workspace">
+          <div id="une-slots-container">
+            <div class="une-slot" data-slot="1">
+              <span class="slot-number">1</span>
+              <span class="slot-placeholder-text">Glissez le GROS TITRE principal ici</span>
+            </div>
+            <div class="une-slot" data-slot="2">
+              <span class="slot-number">2</span>
+              <span class="slot-placeholder-text">Glissez l'ACTU SECONDAIRE ici</span>
+            </div>
+            <div class="une-slot" data-slot="3">
+              <span class="slot-number">3</span>
+              <span class="slot-placeholder-text">Glissez la DÉPÊCHE RAPIDE / INSOLITE ici</span>
+            </div>
           </div>
-          <div class="une-slot" data-slot="2">
-            <span class="slot-number">2</span>
-            <span class="slot-placeholder-text">Glissez l'ACTU SECONDAIRE ici</span>
-          </div>
-          <div class="une-slot" data-slot="3">
-            <span class="slot-number">3</span>
-            <span class="slot-placeholder-text">Glissez la DÉPÊCHE RAPIDE / INSOLITE ici</span>
-          </div>
-        </div>
 
-        <button id="btn-publish" class="btn-disabled" disabled>
-          🚀 PUBLIER LE JOURNAL
-        </button>
+          <button id="btn-publish" class="btn-disabled" disabled>
+            🚀 PUBLIER LE JOURNAL
+          </button>
 
-        <!-- Ignored / unselected list -->
-        <div id="ignored-news-panel">
-          <h3>🗑️ Non Publiés / Mis de côté</h3>
-          <div id="ignored-cards-list" class="ignored-list-empty">
-            <span class="empty-list-text">Les articles non sélectionnés s'accumuleront ici.</span>
+          <!-- Ignored / unselected list -->
+          <div id="ignored-news-panel">
+            <h3>🗑️ Non Publiés / Mis de côté</h3>
+            <div id="ignored-cards-list" class="ignored-list-empty">
+              <span class="empty-list-text">Les articles non sélectionnés s'accumuleront ici.</span>
+            </div>
           </div>
         </div>
       </section>
@@ -140,15 +142,71 @@
       <section class="content-col" id="col-social">
         <!-- Canvas 3D d'arrière-plan du réseau -->
         <div id="canvas-3d-container"></div>
+        
         <div class="col-header font-serif">
           <h2>📱 Belgogram</h2>
           <span class="social-live-indicator">● LIVE</span>
         </div>
         
-        <div class="scrollable-container" id="social-feed-list">
-          <div id="social-placeholder">
-            <div class="placeholder-social-icon">💬</div>
-            <p>Le fil social s'activera dès la publication de votre journal.</p>
+        <!-- Simulated Smartphone mockup -->
+        <div id="phone-mockup">
+          <div id="phone-notch"></div>
+          
+          <!-- Status Bar -->
+          <div id="phone-status-bar">
+            <span class="phone-time" id="phone-clock">08:30</span>
+            <div class="phone-icons">
+              <span>📶</span>
+              <span>🛜</span>
+              <span>🔋 84%</span>
+            </div>
+          </div>
+          
+          <div id="phone-screen">
+            <!-- App Header -->
+            <div id="phone-app-header">
+              <span class="phone-app-logo">Belgogram</span>
+              <div class="phone-app-icons">
+                <span>🔍</span>
+                <span class="phone-notif-bell" id="phone-bell-icon">🔔<span class="phone-bell-badge" id="phone-bell-badge">0</span></span>
+              </div>
+            </div>
+            
+            <!-- Instagram-like Stories bar -->
+            <div id="phone-stories-container">
+              <div class="story-circle active" title="Votre story">
+                <div class="story-avatar">🇧🇪</div>
+                <span>BelNews</span>
+              </div>
+              <div class="story-circle" title="Kris (Frite Citoyenne)">
+                <div class="story-avatar">🍟</div>
+                <span>Kris</span>
+              </div>
+              <div class="story-circle" title="Remco (Vélo)">
+                <div class="story-avatar">🚴</div>
+                <span>Remco</span>
+              </div>
+              <div class="story-circle" title="Philippe (Roi)">
+                <div class="story-avatar">👑</div>
+                <span>Phil</span>
+              </div>
+              <div class="story-circle" title="Dour Festival">
+                <div class="story-avatar">🎵</div>
+                <span>Dour</span>
+              </div>
+              <div class="story-circle" title="Chantal (Uccle)">
+                <div class="story-avatar">👵</div>
+                <span>Chantal</span>
+              </div>
+            </div>
+            
+            <!-- Scrollable feed inside phone -->
+            <div class="scrollable-container" id="social-feed-list">
+              <div id="social-placeholder">
+                <div class="placeholder-social-icon">💬</div>
+                <p>Le fil social s'activera dès la publication de votre journal.</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -157,9 +215,13 @@
 
     <!-- BOTTOM BAR: PATRON CHAT POPUP -->
     <div id="boss-chat-widget" class="chat-collapsed">
+      <!-- Portrait vertical géant réactif de Jean-Jacques -->
+      <div id="boss-portrait-container">
+        <img id="boss-character-img" src="assets/avatars/boss_neutral.png" alt="Jean-Jacques">
+      </div>
+      
       <div id="boss-chat-header">
         <span class="boss-status-dot">●</span>
-        <img src="assets/avatars/boss.png" class="boss-avatar-img" alt="Patron">
         <span class="boss-title">Directeur BelNews</span>
         <span class="boss-toggle-icon">▲</span>
       </div>
@@ -176,39 +238,66 @@
 
   <!-- 1. START GAME MODAL -->
   <div class="modal-overlay" id="modal-start">
-    <div class="modal-card">
-      <h1 class="font-serif">BelNews</h1>
-      <h2 class="subtitle-satire">Serious Game de Cynisme Éditorial</h2>
+    <div class="modal-card onboarding-card">
+      <h1 class="font-serif text-center">📰 BelNews</h1>
+      <h2 class="subtitle-satire text-center">Serious Game de Cynisme Éditorial</h2>
+      
       <div class="modal-body-content">
-        <p>Bienvenue chez <strong>BelNews</strong>, le quotidien numérique belge le plus visité de l'Internet.</p>
-        
-        <blockquote>
-          "Chez nous, le clic n'est pas une statistique. C'est notre raison d'être. Si l'information est vraie, tant mieux. Si elle est fausse mais qu'elle fait réagir, c'est encore mieux."<br>
-          <cite>— Jean-Jacques, Directeur de la Rédaction</cite>
-        </blockquote>
+        <div class="rules-introduction">
+          <p>Bienvenue chez <strong>BelNews</strong>, le site d'information le plus lu de Belgique.</p>
+          <p class="pedagogical-framing"><em>Jeu sérieux d'éducation aux médias : apprenez à décoder la désinformation, le sensationnalisme algorithmique et le modèle économique publicitaire en incarnant un community manager cynique.</em></p>
+        </div>
 
-        <p><strong>Votre Mission :</strong> Atteindre les objectifs d'abonnés fixés par le patron à chaque niveau. Pour cela, triez les dépêches belges quotidiennes et publiez-en exactement 3. Adaptez les titres pour forcer le clic. N'oubliez pas, l'éthique ne paie pas le loyer... du moins officiellement.</p>
+        <div class="onboarding-grid">
+          <div class="onboarding-step">
+            <h3>🎮 Comment Jouer ?</h3>
+            <ol>
+              <li><strong>Triez les dépêches :</strong> Sélectionnez 3 actualités belges de la pile de gauche et glissez-les sur la Une au centre.</li>
+              <li><strong>Choisissez le traitement :</strong> Basculez le titre de chaque article : 
+                <br><span class="badge-rules type-sobre">Sobre & Rigoureux</span> (vérité, peu de clics) ou 
+                <br><span class="badge-rules type-putaclic">Sensationnel (Putaclic)</span> (exagéré/rumeur, buzz garanti).
+              </li>
+              <li><strong>Publiez :</strong> Regardez les réactions s'enchaîner sur le smartphone Belgogram !</li>
+            </ol>
+          </div>
+
+          <div class="onboarding-jauges">
+            <h3>📈 Vos indicateurs de survie :</h3>
+            <ul>
+              <li><strong>👥 Abonnés :</strong> Le KPI du patron. Si vous n'atteignez pas l'objectif du niveau à la fin du temps imparti, vous êtes viré !</li>
+              <li><strong>🛡️ Crédibilité :</strong> Confiance du public. Si elle tombe à <strong>0%</strong>, le journal ferme pour fraude (Game Over).</li>
+              <li><strong>🔥 Pression du Patron :</strong> Jean-Jacques s'énerve si le buzz est faible. Si sa colère atteint <strong>100%</strong>, vous êtes licencié (Game Over).</li>
+              <li><strong>👁️ Jauge Éthique (Cachée) :</strong> Mesure secrètement l'état de la démocratie belge. Révélée uniquement au débriefing final.</li>
+            </ul>
+          </div>
+        </div>
+
+        <blockquote class="boss-onboarding-quote">
+          "La déontologie ? Ça paie pas mes frites ni mon cigare, gamin. Fais-moi du clic."
+          <cite>— Jean-Jacques, Directeur</cite>
+        </blockquote>
         
         <div class="difficulty-selection">
           <h3>Choisissez votre niveau de difficulté :</h3>
           <div class="difficulty-options">
             <button class="btn-diff active" data-difficulty="1">
               <strong>Stagiaire</strong>
-              <span>Objectifs indulgents, patron patient, leçons faciles.</span>
+              <span>Leçons faciles, patron patient, objectifs d'abonnés bas.</span>
             </button>
             <button class="btn-diff" data-difficulty="2">
               <strong>Normal</strong>
-              <span>Pression standard, équilibre difficile, concurrence active.</span>
+              <span>Pression standard, équilibre instable entre buzz et éthique.</span>
             </button>
             <button class="btn-diff" data-difficulty="3">
               <strong>Expert</strong>
-              <span>Objectifs brutaux, patron tyrannique, fake news toxiques.</span>
+              <span>Pression maximale, fake news toxiques et lectorat fatigué du putaclic.</span>
             </button>
           </div>
         </div>
       </div>
-      <button class="btn-primary" id="btn-start-game">
-        💼 ENTRER DANS LA RÉDACTION
+      
+      <button class="btn-primary" id="btn-start-game" style="margin-top: 15px;">
+        💼 REJOINDRE LA RÉDACTION
       </button>
     </div>
   </div>
@@ -316,6 +405,15 @@
             <span class="ethics-emoji" id="debrief-ethics-emoji">😈</span>
             <div class="ethics-score-label">Votre score éthique : <strong id="val-debrief-ethics">0 / 100</strong></div>
             <p id="debrief-ethics-verdict">Vous êtes un CM totalement dénué de scrupules. Le patron vous adore, mais le débat démocratique est en ruine.</p>
+          </div>
+        </div>
+
+        <!-- Pedagogical analysis of publications -->
+        <div class="debrief-block full-width" id="debrief-analysis">
+          <h3>🔍 Impact de vos publications sur la Démocratie</h3>
+          <p style="font-size: 0.85rem; margin-bottom: 15px; color: var(--color-text-muted);">Voici les retombées réelles de vos choix d'édition sur l'esprit public et la société belge :</p>
+          <div id="debrief-impacts-list">
+            <!-- Rempli dynamiquement en JS avec l'analyse d'impact de chaque article -->
           </div>
         </div>
 
