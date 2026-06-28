@@ -252,12 +252,9 @@ window.BelNewsUI = {
     const dailyTargetBase = Math.round(level.subscribersGoal / level.days);
     const dailyTarget = Math.round(dailyTargetBase * (1 + (currentDay - 1) * 0.15));
 
-    // Consigne ultra explicite de Jean-Jacques
-    let objectiveText = `JOUR ${currentDay} sur ${level.days} (${level.title}). Il me faut exactement **+${dailyTarget.toLocaleString()} abonnés** aujourd'hui ! Et fais attention à notre crédibilité : si elle tombe à zéro, les avocats ferment le journal. Allez gamin, au clic !`;
-    
-    if (currentDay === 1) {
-      objectiveText = `Bienvenue stagiaire. Ton rôle : **${level.title}**. L'objectif final de ce niveau est de réunir **${level.subscribersGoal.toLocaleString()} abonnés** en ${level.days} jours. Pour aujourd'hui, ramène au moins **+${dailyTarget.toLocaleString()} abonnés** en publiant 3 unes putaclics, sans te faire choper par les fact-checkers !`;
-    }
+    // Consigne ultra explicite et thématique de Jean-Jacques
+    const baseBriefing = window.BelNewsPatron.dayBriefings[currentDay] || "Allez gamin, au clic !";
+    const objectiveText = `${baseBriefing}<br><br><strong>Objectif du jour :</strong> Générer au moins **+${dailyTarget.toLocaleString()} abonnés** (Crédibilité > 0%).`;
 
     this.displayBossMessage(objectiveText);
     
@@ -781,7 +778,8 @@ window.BelNewsUI = {
     let currentStep = 0;
     const subsGainedPerStep = Math.round((stats.subscribersGained || 0) / steps);
 
-    const interval = setInterval(() => {
+    let interval;
+    interval = setInterval(() => {
       currentStep++;
       
       currentLikes = Math.round(((stats.likes || 0) / steps) * currentStep);
