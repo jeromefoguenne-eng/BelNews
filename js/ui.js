@@ -42,6 +42,117 @@ window.BelNewsUI = {
     this.setupDragAndDrop();
     this.setupButtonEvents();
     this.startPhoneClock();
+    this.setupContactStories(); // Setup story profile viewer
+  },
+
+  contactProfiles: {
+    kris: {
+      name: "Kris (Frite Citoyenne)",
+      handle: "@kris_frite",
+      avatar: "🍟",
+      bio: "Militant de la frite libre et du vrai blanc de bœuf à Liège. Résistance face aux taxes sur l'huile de friture !",
+      posts: [
+        "On veut nous taxer notre graisse de bœuf nationale ! Mobilisation générale de toutes les friteries ! 🍟✊",
+        "Voler 50 kg de graisse de bœuf à Namur ? C'est pas un voleur, c'est un combattant de la liberté !"
+      ]
+    },
+    remco: {
+      name: "Remco Evenepoel",
+      handle: "@remco_cycling",
+      avatar: "🚴",
+      bio: "Coureur professionnel. Champion de Belgique. Toujours plus vite sur le vélo.",
+      posts: [
+        "Victoire méritée sur le tour ! Merci à tous pour les encouragements, le vélo belge est au sommet ! 🚴‍♂️🇧🇪",
+        "Certains m'accusent de dopage mécanique... Je rigole ! C'est la force de la frite dans les jambes !"
+      ]
+    },
+    phil: {
+      name: "Roi Philippe",
+      handle: "@phil_belgium",
+      avatar: "👑",
+      bio: "Souverain des Belges. J'aime les frites, les visites d'écoles et la cohésion nationale. 🇧🇪",
+      posts: [
+        "Très fier de visiter les ateliers de mécanique à Courtrai. Le néerlandais avance bien, vive la Belgique ! 🇧🇪👑",
+        "Un excellent dimanche en famille. Nous avons mangé des chicons au gratin faits maison."
+      ]
+    },
+    dour: {
+      name: "Dour Festival",
+      handle: "@dour_fest",
+      avatar: "🎵",
+      bio: "5 jours d'amour, de musique et de boue. DOUUUUR !",
+      posts: [
+        "La programmation de cette année va être folle ! Vous êtes prêts pour le camping dans la boue ? 🎵🏕️",
+        "Il paraît que Dour ouvre 6 mois à l'avance... C'est faux, mais vous pouvez déjà monter votre tente !"
+      ]
+    },
+    chantal: {
+      name: "Chantal d'Uccle",
+      handle: "@chantal_uccle",
+      avatar: "👵",
+      bio: "Résidente d'Uccle. Aime les chiens, le calme et les valeurs traditionnelles.",
+      posts: [
+        "Il fait 45°C dehors, c'est insupportable. Heureusement que la terrasse de mon club de tennis est ombragée. ☀️🎾",
+        "Des pyramides sous Charleroi ? Ma femme de ménage m'a dit qu'il y avait beaucoup de poussière là-bas, c'est sûrement lié."
+      ]
+    }
+  },
+
+  setupContactStories() {
+    const stories = document.querySelectorAll("#phone-stories-container .story-circle");
+    const profileView = document.getElementById("phone-profile-view");
+    const closeBtn = document.getElementById("profile-close-btn");
+    
+    if (!profileView || !closeBtn) return;
+    
+    stories.forEach(story => {
+      story.addEventListener("click", () => {
+        const title = story.getAttribute("title");
+        let key = null;
+        if (title.includes("Kris")) key = "kris";
+        else if (title.includes("Remco")) key = "remco";
+        else if (title.includes("Philippe") || title.includes("Phil")) key = "phil";
+        else if (title.includes("Dour")) key = "dour";
+        else if (title.includes("Chantal")) key = "chantal";
+        
+        if (key && this.contactProfiles[key]) {
+          const profile = this.contactProfiles[key];
+          
+          document.getElementById("profile-user-name").textContent = profile.name;
+          document.getElementById("profile-user-handle").textContent = profile.handle;
+          document.getElementById("profile-user-avatar").textContent = profile.avatar;
+          document.getElementById("profile-user-bio").textContent = profile.bio;
+          
+          const postsList = document.getElementById("profile-user-posts");
+          postsList.innerHTML = "";
+          
+          profile.posts.forEach(postText => {
+            const postEl = document.createElement("div");
+            postEl.className = "profile-post";
+            postEl.innerHTML = `
+              <div class="profile-post-header">
+                <span class="profile-post-avatar">${profile.avatar}</span>
+                <div class="profile-post-meta">
+                  <span class="profile-post-name">${profile.name}</span>
+                  <span class="profile-post-handle">${profile.handle}</span>
+                </div>
+              </div>
+              <p class="profile-post-text">${postText}</p>
+            `;
+            postsList.appendChild(postEl);
+          });
+          
+          profileView.classList.remove("hidden");
+        } else {
+          // If they click on BelNews story (reset/close)
+          profileView.classList.add("hidden");
+        }
+      });
+    });
+    
+    closeBtn.addEventListener("click", () => {
+      profileView.classList.add("hidden");
+    });
   },
 
   // Faire tourner l'horloge du smartphone simulé
@@ -776,106 +887,209 @@ window.BelNewsUI = {
     document.getElementById("modal-firing").classList.remove("hidden");
   },
 
-  // Analyse didactique de l'impact des choix éditoriaux du joueur (Style Theme Hospital)
   generatePedagogicalImpact(item, titleType) {
     const isPutaclic = titleType === 'putaclic';
     
     const impacts = {
-      "pol-1": isPutaclic 
-        ? "En titrant sur la 'faillite de l'État', vous avez poussé des milliers de Belges à vider leurs comptes d'épargne pour acheter de l'or et des fricadelles. Le Premier ministre a dû faire un JT de clarification. Niveau éthique : désastreux."
-        : "Votre titre sobre a ennuyé tout le monde. Les citoyens ont ignoré la réunion, laissant les lobbys dicter la taxation du houblon en toute discrétion. Mais au moins, pas de panique bancaire.",
-      
-      "fd-1": isPutaclic
-        ? "Le titre 'scandale de la frite' a déclenché une manifestation nationale pour le droit à la graisse de bœuf. Les friteries de Namur ont dû être placées sous protection policière. Le suspect a été érigé en héros Robin des Bois."
-        : "Traitement factuel d'un vol mineur. L'affaire est résolue dans le calme. Les Namurois continuent de manger leurs frites en paix.",
+      // Jour 1
+      "sci-1-1": isPutaclic 
+        ? "Vous avez transformé une découverte d'exoplanète en canular d'aliens, discréditant le travail de l'ULiège pour des clics faciles."
+        : "Sujet scientifique rigoureux. Peu de clics, mais la respectabilité académique est sauve.",
+      "sp-1-1": isPutaclic 
+        ? "En titrant 'derby de la haine', vous attisez les tensions violentes entre supporters de Liège et Charleroi pour un buzz rapide."
+        : "Simple compte-rendu sportif. Rigueur préservée.",
+      "fd-1-1": isPutaclic 
+        ? "Vous dramatisez à l'extrême un incendie accidentel, générant une inquiétude disproportionnée."
+        : "Information calme sur un fait divers. Utile et sobre.",
+      "fd-1-2": isPutaclic 
+        ? "Le titre 'bain de sang' transforme un drame humain en spectacle voyeuriste."
+        : "Homicide rapporté de manière factuelle.",
+      "fd-1-3": isPutaclic 
+        ? "Suggérer un enlèvement d'adolescente sème inutilement la panique chez les parents de Mons."
+        : "Diffusion responsable de l'avis de recherche officiel.",
+      "nat-1-1": isPutaclic 
+        ? "Traiter un bébé panda roux de 'monstre biologique' déçoit les lecteurs et tourne le zoo au ridicule."
+        : "Célébration mignonne d'une naissance rare à Pairi Daiza.",
         
-      "clim-1": isPutaclic
-        ? "Panique générale ! Les habitants de Wallonie ont acheté toutes les barques et gilets de sauvetage de Decathlon. Les routes ardennaises ont été saturées par des exodes injustifiés. L'IRM vous envoie la facture de la cellule de crise."
-        : "Information claire. Les résidents des zones inondables ont mis leurs biens à l'abri calmement. Zéro blessé, zéro buzz.",
+      // Jour 2
+      "int-2-1": isPutaclic 
+        ? "Dramatisation de la catastrophe lointaine sans aucun impact local belge."
+        : "Rapport international factuel et important, bien que délaissé par l'audience locale.",
+      "int-2-2": isPutaclic 
+        ? "Vous titrez de manière gore sur la guerre civile sans expliquer le contexte géopolitique."
+        : "Journalisme de guerre rigoureux mais ignoré.",
+      "int-2-3": isPutaclic 
+        ? "Sensationnalisme sur la famine sahélienne n'apportant aucune analyse de fond."
+        : "Sujet humanitaire indispensable traité avec sérieux.",
+      "bel-2-1": isPutaclic 
+        ? "Une rixe lycéenne requalifiée en 'guerre des gangs', créant un sentiment d'insécurité immédiat à Liège."
+        : "Bilan neutre d'une altercation publique.",
+      "bel-2-2": isPutaclic 
+        ? "Parler d'un ring 'inondé de sang' terrifie les usagers et bloque virtuellement la capitale."
+        : "Annonce factuelle d'un accident de circulation.",
+      "bel-2-3": isPutaclic 
+        ? "Sensationalisme excessif sur un drame familial pour indigner les parents belges."
+        : "Sauvetage d'enfant rapporté sans voyeurisme.",
         
-      "mon-1": isPutaclic
-        ? "Votre insinuation sur le Roi a déclenché une polémique constitutionnelle. Des députés ont demandé l'abdication, croyant que le souverain avait insulté la Flandre. Le Palais a dû publier un communiqué officiel."
-        : "La visite royale est passée inaperçue. Le Roi est content, les étudiants en mécanique aussi, votre patron beaucoup moins.",
+      // Jour 3
+      "gov-3-1": isPutaclic 
+        ? "Dénigrer les profs en les traitant de faignants sabote tout dialogue démocratique sur la réforme."
+        : "Cadrage biaisé visant à plaire au gouvernement pour préserver nos subventions.",
+      "gov-3-2": isPutaclic 
+        ? "Assimiler une grève syndicale à une prise d'otages d'élèves attise la haine anti-syndicale."
+        : "Cadrage hostile à la manifestation, relayant uniquement les plaintes des parents.",
+      "gov-3-3": isPutaclic 
+        ? "Sondage bidon monté en épingle pour simuler un consensus imaginaire des élèves."
+        : "Désinformation statistique défendant la réforme scolaire impopulaire.",
+      "gov-3-4": isPutaclic 
+        ? "Parler de 'marée rouge' envahissant Bruxelles associe la grève à une menace violente."
+        : "Couverture objective d'une manifestation nationale enseignante majeure.",
+      "gov-3-5": isPutaclic 
+        ? "Terminologie belliqueuse suggérant que les jeunes détruisent l'école."
+        : "Reportage correct sur la solidarité entre étudiants et enseignants.",
+      "gov-3-6": isPutaclic 
+        ? "Biais agressif pour discréditer la réforme Boulanger sans nuances."
+        : "Paroles données aux directeurs d'écoles sur leurs difficultés concrètes.",
         
-      "fake-1": isPutaclic
-        ? "Vous avez répandu la rumeur Coca-Cola / Manneken Pis. Des militants anti-capitalistes ont vandalisé la statue en y versant du soda. Une crise diplomatique avec Atlanta a été évitée de justesse."
-        : "Vous avez refusé de relayer cette fake news toxique. Manneken Pis continue d'uriner de l'eau claire sans logo sur son costume.",
+      // Jour 4
+      "cli-4-1": isPutaclic 
+        ? "Vendre 45°C comme un 'été de rêve' incite à l'exposition dangereuse et nie l'urgence écologique."
+        : "Minimisation délibérée du réchauffement pour préserver les intérêts pétroliers de notre actionnaire.",
+      "cli-4-2": isPutaclic 
+        ? "Cadrage récréatif de la chaleur pour ignorer le problème environnemental."
+        : "Esthétisation du soleil occultant la crise climatique majeure.",
+      "cli-4-3": isPutaclic 
+        ? "Désinformation historique prétendant que la hausse actuelle est normale, rassurant les pollueurs."
+        : "Relais de thèses climatosceptiques réfutées pour nier la responsabilité humaine.",
+      "cli-4-4": isPutaclic 
+        ? "Titre trash sur une hécatombe pour faire paniquer les personnes isolées."
+        : "Alerte de santé publique cruciale sur la surmortalité liée à la canicule.",
+      "cli-4-5": isPutaclic 
+        ? "Dramatisation outrancière des rapports des experts."
+        : "Explication rigoureuse des conclusions scientifiques du GIEC.",
+      "cli-4-6": isPutaclic 
+        ? "Titre anxiogène sur des soignants agonisants."
+        : "Reportage nécessaire sur la saturation des urgences hennuyères.",
         
-      "san-1": isPutaclic
-        ? "Votre titre complotiste a fait chuter le taux de vaccination de 15% en Wallonie. Une épidémie de grippe a surchargé les urgences de Liège. Félicitations, vous avez réintroduit des virus du Moyen-Äge pour des clics."
-        : "Information médicale rigoureuse. Les personnes à risque se vaccinent sereinement chez leur pharmacien. La santé publique vous remercie.",
+      // Jour 5
+      "con-5-1": isPutaclic 
+        ? "Relais du complot platiste présenté comme une vérité extraterrestre. La crédibilité s'effondre."
+        : "Propagation consciente de fausses théories délirantes nuisant à l'esprit public.",
+      "con-5-2": isPutaclic 
+        ? "Délire diffamatoire accusant une star d'être un reptile. Le journalisme de caniveau absolu."
+        : "Relais de rumeurs conspirationnistes absurdes sur une célébrité.",
+      "con-5-3": isPutaclic 
+        ? "Paranoïa des pigeons espions qui détruit la confiance citoyenne envers les institutions."
+        : "Relais de rumeurs ridicules sur la surveillance de masse.",
+      "con-5-4": isPutaclic 
+        ? "Titre provocateur sur un prétendu mensonge réfuté."
+        : "Rappel scientifique clair des preuves physiques que la Terre est bien ronde.",
+      "con-5-5": isPutaclic 
+        ? "Titre sensationnel sur les biais cérébraux."
+        : "Décryptage des faiblesses psychologiques favorisant la croyance aux complots.",
+      "con-5-6": isPutaclic 
+        ? "Parler de censure d'État alors qu'il s'agit de modérer la désinformation."
+        : "Information neutre sur les réglementations européennes de lutte contre les fake news.",
         
-      "sp-1": isPutaclic
-        ? "L'Italie a boycotté le chocolat belge pendant 24h suite à vos provocations. Le sélectionneur a dû s'excuser. Mais le taux d'engagement a battu des records !"
-        : "Rapport de match classique. Les supporters fêtent la victoire avec modération dans les cafés de Bruxelles.",
+      // Jour 6
+      "sc-6-1": isPutaclic 
+        ? "Stigmatisation des réfugiés en les qualifiant de menaces sans contrôle, attisant le racisme."
+        : "Focalisation biaisée sur l'origine d'un fait divers pour ériger les étrangers en boucs émissaires.",
+      "sc-6-2": isPutaclic 
+        ? "Titre raciste suggérant une mafia infiltrant nos écoles."
+        : "Jeter le discrédit sur l'ensemble d'une communauté à partir d'un fait divers local.",
+      "sc-6-3": isPutaclic 
+        ? "Dramatisation d'une arrestation pour accréditer la thèse d'un danger migrant permanent."
+        : "Biais anxiogène ciblant les réfugiés du Racistant.",
+      "sc-6-4": isPutaclic 
+        ? "Titre provocateur suggérant un blocage total des bus."
+        : "Dénonciation légitime d'une agression sur un travailleur du TEC.",
+      "sc-6-5": isPutaclic 
+        ? "Sensationnalisme sur une mule de drogue belge."
+        : "Saisie de drogue classique rapportée de manière factuelle.",
+      "sc-6-6": isPutaclic 
+        ? "Insinuer une hausse cachée de criminalité."
+        : "Rapport statistique officiel montrant la stabilité réelle de la criminalité.",
         
-      "eco-1": isPutaclic
-        ? "En parlant de 'hausse secrète', vous avez déclenché une grève sauvage à la SNCB. Aucun train n'a roulé pendant deux jours, bloquant la moitié du pays. Votre patron a pris sa voiture."
-        : "Hausse tarifaire expliquée de manière économique. Les voyageurs râlent mais achètent leurs abonnements. Aucun train de plus n'est en retard.",
+      // Jour 7
+      "pm-7-1": isPutaclic 
+        ? "Généralisation haineuse présentant l'immigration comme synonyme de délinquance."
+        : "Amplification médiatique d'arrestations ciblées pour alimenter la panique morale.",
+      "pm-7-2": isPutaclic 
+        ? "Théorie du grand remplacement validée par un titre fallacieux."
+        : "Relais de thèses xénophobes sur le changement de population à Bruxelles.",
+      "pm-7-3": isPutaclic 
+        ? "Témoignage isolé vendu comme une terreur généralisée à Ixelles."
+        : "Amplification du sentiment d'insécurité pour fidéliser par la peur.",
+      "pm-7-4": isPutaclic 
+        ? "Titre réduisant les migrants à de la main-d'œuvre bon marché."
+        : "Reportage valorisant l'intégration positive de réfugiés par l'emploi.",
+      "pm-7-5": isPutaclic 
+        ? "Dramatisation de la misère pour susciter de la pitié."
+        : "Soutien aux actions d'entraide et de solidarité citoyenne.",
+      "pm-7-6": isPutaclic 
+        ? "Titre condescendant sur l'inclusion."
+        : "Étude académique montrant les bénéfices de la scolarisation rapide des enfants.",
         
-      "fake-2": isPutaclic
-        ? "La fausse étude Triple Karmeliet a provoqué des brûlures au second degré chez des centaines d'étudiants ivres sur la plage d'Ostende. Les hôpitaux belges ont soigné des comas éthyliques et des insolations simultanées."
-        : "Vous avez censuré cette escroquerie médicale. Les pharmaciens continuent de vendre de la crème solaire, et les brasseurs de la bière.",
+      // Jour 8
+      "ad-8-1": isPutaclic 
+        ? "Publicité clandestine pour Voltis déguisée en dossier écologique."
+        : "Insertion de pub native sans mention claire de partenariat, violant la déontologie.",
+      "ad-8-2": isPutaclic 
+        ? "Désinformation nutritionnelle aberrante rédigée pour plaire à ChocoKing."
+        : "Publi-rédactionnel mensonge vendant du sucre ultra-transformé comme un atout santé.",
+      "ad-8-3": isPutaclic 
+        ? "Promotion de SunDream masquée sous un guide voyage."
+        : "Contenu partenaire trompeur pour inciter à l'achat chez notre sponsor.",
+      "ad-8-4": isPutaclic 
+        ? "Titre anxiogène pour descendre la SNCB au profit d'annonceurs autos."
+        : "Rapport factuel sur la ponctualité catastrophique des trains belges.",
+      "ad-8-5": isPutaclic 
+        ? "Dramatisation alarmiste de la hausse des prix."
+        : "Enquête utile sur l'impact de l'inflation sur le caddie des Belges.",
+      "ad-8-6": isPutaclic 
+        ? "Titre racoleur sur la crise du logement."
+        : "Analyse des difficultés d'accès à l'immobilier bruxellois.",
         
-      "int-1": isPutaclic
-        ? "Le 'blocus de Bruxelles' a effrayé les fonctionnaires européens qui ont fait du télétravail pendant une semaine. La vente de sandwiches au quartier Schuman s'est effondrée de 80%."
-        : "Les tracteurs ont manifesté dans les zones prévues. L'accord international se négocie lentement dans le jargon diplomatique.",
+      // Jour 9
+      "sc-9-1": isPutaclic 
+        ? "Photos volées du Premier ministre en yacht, privilégiant le trash à la politique budgétaire."
+        : "Atteinte flagrante à la vie privée au profit d'un potin d'Uccle déguisé en info.",
+      "sc-9-2": isPutaclic 
+        ? "Humiliation publique d'un député ivre pour exciter la colère anti-élites."
+        : "Voyeurisme sur un comportement privé sans intérêt démocratique.",
+      "sc-9-3": isPutaclic 
+        ? "Révélations intimes sordides sur un divorce de célébrités."
+        : "Indiscrétions judiciaires exploitées au mépris du respect de la vie privée.",
+      "sc-9-4": isPutaclic 
+        ? "Dramatisation anxiogène de la crise des lits d'hôpitaux."
+        : "Enquête de fond salutaire dénonçant le manque de moyens hospitaliers.",
+      "sc-9-5": isPutaclic 
+        ? "Titre créant un début de panique de l'eau à Mons."
+        : "Révélation essentielle de santé publique sur la pollution chimique des nappes.",
+      "sc-9-6": isPutaclic 
+        ? "Insinuations de corruption généralisée."
+        : "Compte-rendu objectif d'une perquisition de police à la mairie de Charleroi.",
         
-      "cult-1": isPutaclic
-        ? "Des milliers de festivaliers ont envahi Dour six mois à l'avance suite à vos 'révélations secrètes', campant dans la boue et le froid. Les organisateurs sont furieux."
-        : "La programmation est accueillie positivement par les mélomanes. Les préventes se déroulent normalement.",
-        
-      "tech-1": isPutaclic
-        ? "Votre annonce de 'panne géante' a créé un vent de panique. Les Belges ont dévalisé les distributeurs de billets, provoquant une vraie rupture de cash dans les banques de Liège. Payconiq a porté plainte."
-        : "La panne a été corrigée en deux heures dans le calme. Les paiements mobiles ont repris sans incident.",
-        
-      "pol-2": isPutaclic
-        ? "Le titre 'scandale de la paresse' a jeté le discrédit sur tous les fonctionnaires communaux de Wallonie. Des citoyens en colère ont jeté des frites froides sur les fenêtres de la mairie de Chaudfontaine."
-        : "Projet pilote de 4 jours décrit de manière objective. Le débat sur le temps de travail avance de manière constructive en Belgique.",
-        
-      "fd-2": isPutaclic
-        ? "En parlant de 'monstre enragé', vous avez terrifié le centre de Liège. Les commerçants du Carré ont fermé leurs grilles, et des chasseurs amateurs ont patrouillé avec des fusils de chasse en pleine ville."
-        : "Le sanglier égaré a été capturé sous l'œil amusé de quelques Liégeois matinals.",
-        
-      "fake-3": isPutaclic
-        ? "La rumeur d'eau empoisonnée a provoqué une émeute dans les supermarchés de Mons. Les rayons d'eau minérale ont été dévalisés en deux heures, et des bagarres ont éclaté pour des bouteilles de Spa Reine."
-        : "Vous avez bloqué cette fake news criminelle. L'eau montoise est restée parfaitement potable et les esprits calmes.",
-        
-      "eco-2": isPutaclic
-        ? "Votre titre insinuant sur la 'fortune cachée' a provoqué des contrôles fiscaux sauvages et des blocages syndicaux devant les Delhaize franchisés. Les gérants n'ont pas apprécié."
-        : "Article financier équilibré sur la franchise. Les milieux d'affaires analysent les résultats du groupe.",
-        
-      "cult-2": isPutaclic
-        ? "Ixelles a été prise d'assaut par des pilleurs de grenier armés de détecteurs de métaux à la recherche de toiles de Magritte. Plusieurs maisons ont été cambriolées."
-        : "La découverte artistique est célébrée dans les musées. La toile surréaliste est exposée en toute sécurité.",
-        
-      "clim-2": isPutaclic
-        ? "Votre titre catastrophiste a déclenché une pénurie de climatiseurs et de bières d'abbaye dans tout le pays. Des embouteillages monstres se sont formés vers la côte belge."
-        : "Alerte chaleur classique avec rappels de s'hydrater correctement. Les seniors d'Uccle sont restés au frais.",
-        
-      "int-2": isPutaclic
-        ? "Le titre 'guerre atomique' a provoqué des appels de détresse aux centres de secours. Des pacifistes ont bloqué la base militaire de Florennes. Une panique inutile."
-        : "Exercice de routine de l'OTAN signalé de manière professionnelle. Les avions de chasse s'entraînent sans incident.",
-        
-      "mon-2": isPutaclic
-        ? "La rumeur sur le trône a provoqué une tempête médiatique dans la presse people européenne. La princesse a dû démentir publiquement pour calmer le jeu."
-        : "Rapport sobre sur l'anniversaire d'Elisabeth. La monarchie belge préserve sa dignité discrète.",
-        
-      "sp-2": isPutaclic
-        ? "Des soupçons de dopage technologique ont été propagés par des internautes suite à votre titre 'inhumain'. La fédération de cyclisme a dû inspecter le vélo de Remco."
-        : "Félicitations méritées pour Remco Evenepoel. Le cyclisme belge fête son champion national dans les règles de l'art.",
-        
-      "tech-2": isPutaclic
-        ? "En titrant 'la fin des diplômes', vous avez incité des centaines d'étudiants à tricher massivement avec ChatGPT lors des examens à Liège. L'université a dû annuler les épreuves."
-        : "Compte-rendu équilibré sur l'IA dans l'enseignement. Les profs adaptent leurs méthodes pédagogiques intelligemment.",
-        
-      "fake-4": isPutaclic
-        ? "Les réservations d'hôtels et de gîtes à Wavre ont été annulées en masse après votre annonce de fermeture de Walibi. Le parc estime les pertes financières à plusieurs dizaines de milieux d'euros."
-        : "Vous avez rejeté la rumeur. Walibi Belgium continue d'accueillir ses visiteurs pour des looping aquatiques.",
-        
-      "pol-3": isPutaclic
-        ? "Votre alerte sur le 'piège caché' a relancé les tensions sociales. Des manifestations contre la vie chère ont éclaté à Bruxelles. Les syndicats ont bloqué la gare centrale."
-        : "Réduction fiscale expliquée objectivement. Les ménages calculent leurs économies d'énergie sur leur facture de juin."
+      // Jour 10
+      "go-10-1": isPutaclic 
+        ? "Défense aveugle de Gorgamidi en hurlant au lynchage médiatique, minimisant les accusations."
+        : "Cadrage d'auto-défense corporatiste pour blanchir notre présentateur vedette.",
+      "go-10-2": isPutaclic 
+        ? "Complotisme honteux inventant une cabale politique pour innocenter la star."
+        : "Défense malhonnête de l'animateur phare de la chaîne accusé de viols.",
+      "go-10-3": isPutaclic 
+        ? "Attaque des réseaux sociaux pour discréditer le témoignage des victimes."
+        : "Cadrage rejetant la faute sur le militantisme en ligne.",
+      "go-10-4": isPutaclic 
+        ? "Titre sensationnel voyeuriste sur des récits d'agressions sexuelles."
+        : "Libération et relais indispensable de la parole des stagiaires mineures.",
+      "go-10-5": isPutaclic 
+        ? "Dramatisation autour de l'intervention des juges."
+        : "Rapport rigoureux sur l'ouverture formelle de l'instruction pénale.",
+      "go-10-6": isPutaclic 
+        ? "Titre provocateur suggérant un complot interne."
+        : "Révélation accablante sur le silence complice de la direction du journal."
     };
     
     return impacts[item.id] || (isPutaclic 

@@ -13,18 +13,11 @@ window.BelNewsGame = {
     window.BelNewsUI.loadDay(dailyPool);
   },
 
-  // Sélectionner 10 dépêches avec gradation de difficulté selon le jour
+  // Sélectionner les dépêches spécifiques au jour courant
   generateDailyPool() {
-    const pool = [...window.BelNewsPool];
-    const state = window.BelNewsState;
-    const currentDay = state.currentDay;
+    const pool = window.BelNewsPool.filter(art => art.day === window.BelNewsState.currentDay);
     
-    // Séparer les dépêches par niveau de fiabilité
-    const cleanArticles = pool.filter(art => art.reliability >= 80);
-    const ambiguousArticles = pool.filter(art => art.reliability >= 50 && art.reliability < 80);
-    const fakeArticles = pool.filter(art => art.reliability < 50);
-
-    // Mélanger chaque tableau séparément
+    // Mélanger le tableau pour l'ordre d'affichage
     const shuffle = (array) => {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -32,43 +25,10 @@ window.BelNewsGame = {
       }
       return array;
     };
-
-    shuffle(cleanArticles);
-    shuffle(ambiguousArticles);
-    shuffle(fakeArticles);
-
-    const selection = [];
-    
-    // Déterminer la composition du pool selon le jour (Gradation de difficulté)
-    if (currentDay === 1) {
-      // Jour 1 : 6 articles fiables, 2 ambigus, 2 fausses nouvelles (Facile)
-      selection.push(...cleanArticles.slice(0, 6));
-      selection.push(...ambiguousArticles.slice(0, 2));
-      selection.push(...fakeArticles.slice(0, 2));
-    } else if (currentDay === 2) {
-      // Jour 2 : 4 articles fiables, 3 ambigus, 3 fausses nouvelles (Moyen)
-      selection.push(...cleanArticles.slice(0, 4));
-      selection.push(...ambiguousArticles.slice(0, 3));
-      selection.push(...fakeArticles.slice(0, 3));
-    } else {
-      // Jour 3+ : 2 articles fiables, 3 ambigus, 5 fausses nouvelles (Difficile / Saturation de fake news)
-      selection.push(...cleanArticles.slice(0, 2));
-      selection.push(...ambiguousArticles.slice(0, 3));
-      selection.push(...fakeArticles.slice(0, 5));
-    }
-
-    // Si on manque d'articles pour une catégorie (au cas où le pool est petit), on complète avec le reste
-    while (selection.length < 10) {
-      const remaining = pool.filter(art => !selection.some(s => s.id === art.id));
-      if (remaining.length === 0) break;
-      selection.push(remaining[Math.floor(Math.random() * remaining.length)]);
-    }
-
-    // Mélanger la sélection finale
-    shuffle(selection);
+    shuffle(pool);
 
     // Faire une copie profonde pour éviter de polluer les objets statiques
-    return JSON.parse(JSON.stringify(selection.slice(0, 10)));
+    return JSON.parse(JSON.stringify(pool));
   },
 
   // Transitionner vers le jour ou niveau suivant

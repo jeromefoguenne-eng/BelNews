@@ -67,6 +67,7 @@ window.BelNewsScoring = {
     const isPutaclic = titleType === 'putaclic';
     const isFake = article.reliability < 50;
     
+    // Commentaires génériques
     const templatesFake = [
       "Attendez, c'est vérifié ça ? Ça me paraît énorme... 🤨",
       "Encore de la désinformation pure. Honte à BelNews d'écrire ça !",
@@ -80,7 +81,7 @@ window.BelNewsScoring = {
       "Vous cherchez juste le buzz. Ce journal est devenu une poubelle.",
       "SCANDALEUX ! Il faut partager ça en masse !",
       "Encore une tempête dans un verre d'eau. Merci le stagiaire CM.",
-      "Franchement, le titre est abusé. Journalisme poubelle."
+      "Franchement, le titre est abusé. Journalisme de caniveau."
     ];
     
     const templatesClean = [
@@ -99,15 +100,73 @@ window.BelNewsScoring = {
       "M'enfin, c'est n'importe quoi !"
     ];
 
+    // Commentaires thématiques spécifiques
+    const topicComments = {
+      gov: [
+        "Boulanger détruit nos écoles publiques pour enrichir les éditeurs de tablettes !",
+        "Les profs ont bien raison de faire grève, 38 élèves par classe c'est ingérable.",
+        "Ces fainéants de profs encore en grève... marre de devoir garder mes gosses !",
+        "La réforme Boulanger est une honte nationale !"
+      ],
+      cli: [
+        "45 degrés et le journal parle de terrasses et de glaces ? Vous êtes sérieux ?",
+        "Super temps pour aller à Ostende, arrêtez d'être catastrophistes !",
+        "Le réchauffement climatique est là et BelNews nous parle de piscines publiques...",
+        "On va tous griller sur place mais ouf, le glacier fait le plein."
+      ],
+      con: [
+        "Je le savais ! Les pigeons me regardaient bizarrement dans le parc !",
+        "BelNews s'intéresse enfin aux vrais sujets occultés par les élites !",
+        "La Terre plate ? Et pourquoi pas des frites carrées pendant qu'on y est ?",
+        "Pelo Di Pupo est reptilien, ça explique sa voix !"
+      ],
+      sc: [
+        "Il faut renvoyer tous ces Racistanais chez eux, la sécurité avant tout !",
+        "Encore un fait divers monté en épingle pour faire peur aux gens.",
+        "Les Belges n'ont plus de travail et on loge des étrangers...",
+        "Criminalité stable ? C'est faux, on ne se sent plus chez nous !"
+      ],
+      pm: [
+        "Ixelles est devenue une zone de guerre d'après l'article, n'importe quoi.",
+        "La panique morale habituelle pour cacher l'inflation.",
+        "Merci BelNews de dire tout haut ce que les gens pensent tout bas.",
+        "Soutien aux bénévoles qui aident les réfugiés."
+      ],
+      ad: [
+        "C'est moi ou cet article sent le placement de produit à plein nez ? 🤥",
+        "J'adore Voltis, c'est vraiment la meilleure voiture du marché !",
+        "ChocoKing est blindé d'huile de palme, super le conseil santé...",
+        "Un publireportage déguisé, quelle déchéance éditoriale."
+      ],
+      go: [
+        "Soutien total à Pierre Gorgamidi, victime du tribunal féministe de Twitter !",
+        "Pierre Gorgamidi aux assises ! Justice pour les stagiaires !",
+        "Le silence de la chaîne est complice, c'est une honte.",
+        "Présumé innocent ? Il y a quand même cinq plaintes pour viol !"
+      ]
+    };
+
+    // Déterminer la thématique de la dépêche
+    let topicKey = null;
+    for (const key of Object.keys(topicComments)) {
+      if (article.id.startsWith(key)) {
+        topicKey = key;
+        break;
+      }
+    }
+
     const limit = Math.min(6, count); 
     for (let i = 0; i < limit; i++) {
       const user = this.socialUsernames[Math.floor(Math.random() * this.socialUsernames.length)];
       let text = "";
       
       const rand = Math.random();
-      if (isFake && rand < 0.5) {
+      if (topicKey && rand < 0.6) {
+        const list = topicComments[topicKey];
+        text = list[Math.floor(Math.random() * list.length)];
+      } else if (isFake && rand < 0.8) {
         text = templatesFake[Math.floor(Math.random() * templatesFake.length)];
-      } else if (isPutaclic && rand < 0.4) {
+      } else if (isPutaclic && rand < 0.7) {
         text = templatesPutaclic[Math.floor(Math.random() * templatesPutaclic.length)];
       } else if (rand < 0.3) {
         text = templatesBelge[Math.floor(Math.random() * templatesBelge.length)];
@@ -152,17 +211,19 @@ window.BelNewsScoring = {
     const level = window.BelNewsState.getCurrentLevel();
     const currentDay = window.BelNewsState.currentDay;
     
-    // Gradation : la cible quotidienne augmente de 15% par jour de niveau
+    // Calcul de la pression du patron selon l'objectif quotidien
     const dailyTargetBase = Math.round(level.subscribersGoal / level.days);
     const dailyTarget = Math.round(dailyTargetBase * (1 + (currentDay - 1) * 0.15));
     
+    // Évaluation du respect de l'objectif thématique de Jean-Jacques
+    const preferredCount = selectedArticles.filter(pub => pub.article.choiceType === 'preferred').length;
+    const isSuccess = preferredCount >= 2;
+    
     let pressureChange = 0;
-    if (daySubs >= dailyTarget) {
-      pressureChange = -15; // Le patron se détend
-    } else if (daySubs >= dailyTarget * 0.5) {
-      pressureChange = 5;  // Légère tension
+    if (isSuccess) {
+      pressureChange = -15; // Le patron est content, la pression baisse
     } else {
-      pressureChange = 25; // Grosse colère !
+      pressureChange = 25;  // Le patron s'énerve, la pression monte !
     }
 
     const revenueGained = Math.round(daySubs * 0.15 + (window.BelNewsState.subscribers * 0.02));
@@ -185,16 +246,9 @@ window.BelNewsScoring = {
       window.BelNewsState.addPublication(post.article, post.titleType, post.titleText, post.stats);
     });
 
-    // Feedback du patron
-    let feedbackMood = "medium";
-    if (daySubs >= dailyTarget * 1.2) {
-      feedbackMood = "excellent";
-    } else if (daySubs < dailyTarget * 0.4) {
-      feedbackMood = "bad";
-    }
-    
-    const bossSpeechPool = window.BelNewsPatron.dailyFeedback[feedbackMood];
-    const bossSpeech = bossSpeechPool[Math.floor(Math.random() * bossSpeechPool.length)];
+    // Dialogue scénarisé spécifique de Jean-Jacques pour cette journée
+    const dayFeedback = window.BelNewsPatron.dayFeedbacks[currentDay];
+    const bossSpeech = isSuccess ? dayFeedback.success : dayFeedback.fail;
 
     return {
       subscribersGained: actualSubsGained,

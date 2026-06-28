@@ -207,6 +207,26 @@
                 <p>Le fil social s'activera dès la publication de votre journal.</p>
               </div>
             </div>
+
+            <!-- Profile View Popup (hidden by default) -->
+            <div id="phone-profile-view" class="hidden">
+              <div class="profile-header">
+                <button id="profile-close-btn">←</button>
+                <div class="profile-title-group">
+                  <span id="profile-user-name">Nom du contact</span>
+                  <span id="profile-user-handle">@handle</span>
+                </div>
+              </div>
+              <div class="profile-body">
+                <div class="profile-info-section">
+                  <div id="profile-user-avatar" class="profile-large-avatar">❓</div>
+                  <p id="profile-user-bio" class="profile-bio">Biographie du contact.</p>
+                </div>
+                <div id="profile-user-posts" class="profile-posts-list">
+                  <!-- Inséré dynamiquement -->
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
