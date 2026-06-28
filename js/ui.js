@@ -767,50 +767,60 @@ window.BelNewsUI = {
     const commEl = document.querySelector(`#comment-icon-${articleId} .action-val`);
     const commentsSec = document.getElementById(`comments-section-${articleId}`);
     
+    if (!likeEl || !shareEl || !commEl || !commentsSec) {
+      console.warn(`DOM Elements for article ${articleId} not found, skipping counters animation.`);
+      callback();
+      return;
+    }
+
     let currentLikes = 0;
     let currentShares = 0;
     
     const steps = 20;
     const intervalTime = 120;
     let currentStep = 0;
-    const subsGainedPerStep = Math.round(stats.subscribersGained / steps);
+    const subsGainedPerStep = Math.round((stats.subscribersGained || 0) / steps);
 
     const interval = setInterval(() => {
       currentStep++;
       
-      currentLikes = Math.round((stats.likes / steps) * currentStep);
-      currentShares = Math.round((stats.shares / steps) * currentStep);
+      currentLikes = Math.round(((stats.likes || 0) / steps) * currentStep);
+      currentShares = Math.round(((stats.shares || 0) / steps) * currentStep);
       
       likeEl.textContent = currentLikes.toLocaleString();
       shareEl.textContent = currentShares.toLocaleString();
       
-      likeEl.parentElement.classList.add("stat-pop");
-      shareEl.parentElement.classList.add("stat-pop");
+      if (likeEl.parentElement) likeEl.parentElement.classList.add("stat-pop");
+      if (shareEl.parentElement) shareEl.parentElement.classList.add("stat-pop");
       setTimeout(() => {
-        likeEl.parentElement.classList.remove("stat-pop");
-        shareEl.parentElement.classList.remove("stat-pop");
+        if (likeEl.parentElement) likeEl.parentElement.classList.remove("stat-pop");
+        if (shareEl.parentElement) shareEl.parentElement.classList.remove("stat-pop");
       }, 80);
 
       // INCREMENTER LA JAUGE D'ABONNÉS GLOBALE EN DIRECT !
       window.BelNewsState.changeSubscribersLive(subsGainedPerStep);
       
       const globalSubsValue = document.getElementById("val-subscribers");
-      globalSubsValue.classList.add("stat-pop");
-      setTimeout(() => {
-        globalSubsValue.classList.remove("stat-pop");
-      }, 80);
+      if (globalSubsValue) {
+        globalSubsValue.classList.add("stat-pop");
+        setTimeout(() => {
+          globalSubsValue.classList.remove("stat-pop");
+        }, 80);
+      }
 
       // DÉCLENCHER LES IMPULSIONS 3D WEBGL DANS LE GRAPHE DE FOND !
       if (window.BelNews3D && window.BelNews3D.triggerNetworkPulse) {
-        const pulseIntensity = Math.max(1, Math.round(stats.shares / 25));
+        const pulseIntensity = Math.max(1, Math.round((stats.shares || 0) / 25));
         window.BelNews3D.triggerNetworkPulse(pulseIntensity * 0.1);
       }
 
       // Rendu successif des commentaires
-      if (currentStep === 4 && stats.commentsList[0]) this.addSingleComment(commentsSec, stats.commentsList[0], commEl, 1);
-      if (currentStep === 9 && stats.commentsList[1]) this.addSingleComment(commentsSec, stats.commentsList[1], commEl, 2);
-      if (currentStep === 14 && stats.commentsList[2]) this.addSingleComment(commentsSec, stats.commentsList[2], commEl, 3);
-      if (currentStep === 19 && stats.commentsList[3]) this.addSingleComment(commentsSec, stats.commentsList[3], commEl, 4);
+      if (stats.commentsList) {
+        if (currentStep === 4 && stats.commentsList[0]) this.addSingleComment(commentsSec, stats.commentsList[0], commEl, 1);
+        if (currentStep === 9 && stats.commentsList[1]) this.addSingleComment(commentsSec, stats.commentsList[1], commEl, 2);
+        if (currentStep === 14 && stats.commentsList[2]) this.addSingleComment(commentsSec, stats.commentsList[2], commEl, 3);
+        if (currentStep === 19 && stats.commentsList[3]) this.addSingleComment(commentsSec, stats.commentsList[3], commEl, 4);
+      }
 
       if (currentStep >= steps) {
         clearInterval(interval);
@@ -820,6 +830,7 @@ window.BelNewsUI = {
   },
 
   addSingleComment(container, comment, counterEl, countVal) {
+    if (!container || !comment || !counterEl) return;
     const el = document.createElement("div");
     el.className = "social-comment comment-slide-in";
     el.innerHTML = `
@@ -830,10 +841,12 @@ window.BelNewsUI = {
     container.scrollTop = container.scrollHeight;
 
     counterEl.textContent = countVal;
-    counterEl.parentElement.classList.add("stat-pop");
-    setTimeout(() => {
-      counterEl.parentElement.classList.remove("stat-pop");
-    }, 80);
+    if (counterEl.parentElement) {
+      counterEl.parentElement.classList.add("stat-pop");
+      setTimeout(() => {
+        counterEl.parentElement.classList.remove("stat-pop");
+      }, 80);
+    }
   },
 
   showDaySummary(scoringResult) {

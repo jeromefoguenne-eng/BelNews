@@ -173,7 +173,7 @@
 }
 
 #col-inbox {
-  width: 30%;
+  width: 25%;
 }
 
 #col-editor {
@@ -192,7 +192,7 @@
 }
 
 #col-social {
-  width: 35%;
+  width: 40%;
   border-right: none;
 }
 
@@ -1366,8 +1366,8 @@
 /* ==================== SMARTPHONE MOCKUP (BELGOGRAM CHASSIS) ==================== */
 #phone-mockup {
   position: relative;
-  width: 90%;
-  max-width: 440px;
+  width: 95%;
+  max-width: 480px;
   height: calc(100vh - 120px);
   margin: 10px auto;
   border: 12px solid #1e2026;
