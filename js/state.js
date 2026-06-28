@@ -55,21 +55,35 @@ window.BelNewsState = {
   
   // Modifier les abonnés avec garde-fous
   changeSubscribers(amount) {
-    // La difficulté augmente ou réduit les gains
     let multiplier = 1;
-    if (this.difficulty === 1) multiplier = 1.2; // Plus facile
-    if (this.difficulty === 3) multiplier = 0.8; // Plus dur
+    if (this.difficulty === 1) multiplier = 1.2;
+    if (this.difficulty === 3) multiplier = 0.8;
     
     const change = Math.round(amount * multiplier);
     this.subscribers = Math.max(0, this.subscribers + change);
     
-    // Impact sur la pression du patron si gains d'audience
     if (change > 0) {
       this.changeBossPressure(-change / 100);
     }
     
     this.notify();
     return change;
+  },
+
+  // Incrémenter les abonnés en direct durant les animations de posts
+  changeSubscribersLive(amount) {
+    let multiplier = 1;
+    if (this.difficulty === 1) multiplier = 1.2;
+    if (this.difficulty === 3) multiplier = 0.8;
+    
+    const change = Math.round(amount * multiplier);
+    this.subscribers = Math.max(0, this.subscribers + change);
+    
+    if (change > 0) {
+      this.changeBossPressure(-change / 100);
+    }
+    
+    this.notify();
   },
   
   // Modifier la crédibilité avec garde-fous

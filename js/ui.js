@@ -1,4 +1,4 @@
-// Contrôleur de l'Interface Utilisateur (UI) de BelNews
+// Contrôleur de l'Interface Utilisateur (UI) de BelNews v0.2
 window.BelNewsUI = {
   // Liste des articles placés sur la Une : [ { slotId, article, titleType: 'sobre' | 'putaclic' } ]
   selectedArticles: [],
@@ -82,6 +82,11 @@ window.BelNewsUI = {
       this.displayBossMessage("Journée " + window.BelNewsState.currentDay + ". Fais péter le score d'abonnés !");
     }
     
+    // Réinitialiser la couleur du graphe 3D
+    if (window.BelNews3D && window.BelNews3D.updateTheme) {
+      window.BelNews3D.updateTheme(window.BelNewsState.credibility, false);
+    }
+
     // Vider le Belgogram au matin
     const socialFeed = document.getElementById("social-feed-list");
     socialFeed.innerHTML = `
@@ -90,6 +95,58 @@ window.BelNewsUI = {
         <p>Le fil social s'activera dès la publication de votre journal.</p>
       </div>
     `;
+  },
+
+  // Génération dynamique du média de la carte (Photo, Vidéo, GIF)
+  getMediaHTML(article) {
+    if (article.mediaType === "photo") {
+      return `
+        <div class="media-photo" style="background-image: ${article.mediaTheme};">
+          <div class="media-photo-overlay">${article.title}</div>
+        </div>
+      `;
+    } else if (article.mediaType === "video") {
+      return `
+        <div class="media-video" style="background: ${article.mediaTheme};">
+          <span class="video-play-btn">▶️</span>
+          <div class="video-controls-mock">
+            <div class="video-progress-mock"></div>
+          </div>
+          <span class="video-time-badge">01:${Math.floor(Math.random() * 40) + 10}</span>
+        </div>
+      `;
+    } else {
+      // GIF
+      return `
+        <div class="media-gif" style="background: ${article.mediaTheme};">
+          <span class="gif-badge">GIF</span>
+          <span style="font-size: 3rem;">${article.emoji}</span>
+        </div>
+      `;
+    }
+  },
+
+  // Effet de survol parallaxe 3D sur les cartes d'articles
+  apply3DTilt(card) {
+    card.addEventListener("mousemove", (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const xc = rect.width / 2;
+      const yc = rect.height / 2;
+      const angleX = (yc - y) / 12; // angle de rotation X
+      const angleY = (x - xc) / 12; // angle de rotation Y
+      
+      card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) scale3d(1.03, 1.03, 1.03)`;
+      
+      // Ajuster l'ombre pour la profondeur
+      card.style.boxShadow = `${-angleY * 1.5}px ${angleX * 1.5}px 25px rgba(255, 45, 85, 0.2)`;
+    });
+    
+    card.addEventListener("mouseleave", () => {
+      card.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)";
+      card.style.boxShadow = "var(--box-shadow)";
+    });
   },
 
   // Affichage de l'Inbox (pile de gauche)
@@ -115,7 +172,6 @@ window.BelNewsUI = {
       card.setAttribute("draggable", "true");
       card.setAttribute("id", "card-" + article.id);
       
-      // Proximité géog. & Fiabilité
       const reliabilityClass = article.reliability >= 80 ? "reliability-high" : (article.reliability >= 45 ? "reliability-medium" : "reliability-low");
       
       card.innerHTML = `
@@ -123,7 +179,7 @@ window.BelNewsUI = {
           <span class="card-category cat-${article.category.toLowerCase().replace(/\s+/g, '-')}">${article.category}</span>
           <span class="card-source">${article.source}</span>
         </div>
-        <div class="card-illustration">${article.emoji}</div>
+        ${this.getMediaHTML(article)}
         <h3>${article.title}</h3>
         <p>${article.summary}</p>
         <div class="card-meters">
@@ -144,6 +200,9 @@ window.BelNewsUI = {
         </div>
       `;
       
+      // Ajouter l'effet 3D tilt
+      this.apply3DTilt(card);
+
       // Événements Drag & Drop
       card.addEventListener("dragstart", (e) => {
         card.classList.add("dragging");
@@ -165,7 +224,6 @@ window.BelNewsUI = {
       const slotId = parseInt(slot.getAttribute("data-slot"));
       const selection = this.selectedArticles.find(item => item.slotId === slotId);
       
-      // Réinitialiser le style
       slot.className = "une-slot";
       
       if (selection) {
@@ -206,7 +264,6 @@ window.BelNewsUI = {
           </div>
         `;
       } else {
-        // Rendu vide
         const label = slotId === 1 ? "GROS TITRE principal" : (slotId === 2 ? "ACTU SECONDAIRE" : "DÉPÊCHE RAPIDE / INSOLITE");
         slot.innerHTML = `
           <span class="slot-number">${slotId}</span>
@@ -218,12 +275,11 @@ window.BelNewsUI = {
     document.getElementById("une-counter").textContent = `${this.selectedArticles.length} / 3`;
   },
 
-  // Rendu de la zone des ignorés (non publiés)
+  // Rendu de la zone des ignorés
   renderIgnoredList() {
     const list = document.getElementById("ignored-cards-list");
     list.innerHTML = "";
     
-    // Tous les articles du pool qui ne sont ni dans l'inbox dispo ni dans la Une
     const ignored = this.dailyArticlesPool.filter(art => 
       !this.selectedArticles.some(sel => sel.article.id === art.id) &&
       !document.getElementById("card-" + art.id)
@@ -245,13 +301,10 @@ window.BelNewsUI = {
         <span class="ignored-badge">${art.category}</span>
       `;
       list.appendChild(row);
-      
-      // Ajouter également à l'historique d'état éthique
       window.BelNewsState.addIgnored(art);
     });
   },
 
-  // Paramétrer le type de titre choisi
   setSlotTitleType(slotId, type) {
     const selection = this.selectedArticles.find(item => item.slotId === slotId);
     if (selection) {
@@ -260,7 +313,6 @@ window.BelNewsUI = {
     }
   },
 
-  // Retirer un article d'un slot
   removeArticleFromSlot(slotId) {
     this.selectedArticles = this.selectedArticles.filter(item => item.slotId !== slotId);
     this.renderSlots();
@@ -269,7 +321,6 @@ window.BelNewsUI = {
     this.updatePublishButton();
   },
 
-  // Configurer les écouteurs Drag & Drop
   setupDragAndDrop() {
     const slots = document.querySelectorAll(".une-slot");
     
@@ -295,14 +346,11 @@ window.BelNewsUI = {
         if (article) {
           const slotId = parseInt(slot.getAttribute("data-slot"));
           
-          // S'il y a déjà un article dans ce slot, on le vire avant
           this.selectedArticles = this.selectedArticles.filter(item => item.slotId !== slotId);
-          
-          // Ajouter le nouveau
           this.selectedArticles.push({
             slotId: slotId,
             article: article,
-            titleType: 'sobre' // par défaut
+            titleType: 'sobre'
           });
           
           this.renderSlots();
@@ -314,7 +362,6 @@ window.BelNewsUI = {
     });
   },
 
-  // Activer ou désactiver le bouton publier
   updatePublishButton() {
     if (this.selectedArticles.length === 3) {
       this.btnPublish.className = "btn-primary";
@@ -325,21 +372,16 @@ window.BelNewsUI = {
     }
   },
 
-  // Afficher les DM du patron
   displayBossMessage(message) {
     document.getElementById("boss-message-text").textContent = message;
-    
-    // Vibration et flash visuel
     this.bossWidget.classList.remove("chat-collapsed");
     this.bossWidget.classList.add("chat-vibrate");
     setTimeout(() => {
       this.bossWidget.classList.remove("chat-vibrate");
-    }, 500);
+    }, 550);
   },
 
-  // Setup Button Click Handlers
   setupButtonEvents() {
-    // Bouton de lancement
     document.getElementById("btn-start-game").addEventListener("click", () => {
       const activeDiffBtn = document.querySelector(".btn-diff.active");
       const difficulty = activeDiffBtn ? activeDiffBtn.getAttribute("data-difficulty") : 1;
@@ -348,7 +390,6 @@ window.BelNewsUI = {
       window.BelNewsGame.startGame(difficulty);
     });
 
-    // Choix de difficulté
     const diffButtons = document.querySelectorAll(".difficulty-options .btn-diff");
     diffButtons.forEach(btn => {
       btn.addEventListener("click", () => {
@@ -357,108 +398,116 @@ window.BelNewsUI = {
       });
     });
 
-    // Bouton de publication journal
     this.btnPublish.addEventListener("click", () => {
       this.animateAndPublish();
     });
 
-    // Bouton continuer après le rapport du jour
     document.getElementById("btn-next-day").addEventListener("click", () => {
       document.getElementById("modal-day-summary").classList.add("hidden");
       window.BelNewsGame.triggerNextTurn();
     });
 
-    // Recommencer une partie (Défaite)
     document.getElementById("btn-restart-game").addEventListener("click", () => {
       document.getElementById("modal-firing").classList.add("hidden");
       document.getElementById("modal-start").classList.remove("hidden");
     });
 
-    // Rejouer depuis le débriefing
     document.getElementById("btn-debrief-replay").addEventListener("click", () => {
       document.getElementById("modal-debrief").classList.add("hidden");
       document.getElementById("modal-start").classList.remove("hidden");
     });
   },
 
-  // Animation Fly-out à 60 FPS avant de charger le flux social
   animateAndPublish() {
     this.btnPublish.setAttribute("disabled", "true");
     const slots = document.querySelectorAll(".une-slot");
     
-    // Animer le fly-out sur les slots
     slots.forEach(slot => {
       slot.classList.add("card-publish-anim");
     });
 
-    // Une fois l'animation finie, calculer le score et lancer le fil social
     setTimeout(() => {
       slots.forEach(slot => slot.classList.remove("card-publish-anim"));
       
-      // Traitement des scores
       const result = window.BelNewsScoring.processDailyScoring(this.selectedArticles);
       this.renderSocialFeed(result);
     }, 500);
   },
 
-  // Simulation progressive des réactions sociales à 60 FPS
+  // Publication SÉQUENTIELLE et Réactions dynamiques WebGL 3D
   renderSocialFeed(scoringResult) {
     const feedContainer = document.getElementById("social-feed-list");
     feedContainer.innerHTML = ""; // Vider
 
-    scoringResult.posts.forEach((post, index) => {
-      const socialPost = document.createElement("article");
-      socialPost.className = "social-post post-social-anim";
-      socialPost.style.animationDelay = `${index * 1.5}s`; // Apparition cadencée
-      
-      const article = post.article;
-      
-      socialPost.innerHTML = `
-        <div class="social-post-header">
-          <span class="social-poster-avatar">🇧🇪</span>
-          <div>
-            <span class="social-poster-name">BelNews Officiel</span>
-            <span class="social-poster-handle">@belnews_actu</span>
-          </div>
-        </div>
-        <div class="social-post-content">
-          <div class="social-post-image">${article.emoji}</div>
-          <h3 class="social-post-title">${post.titleText}</h3>
-          <p class="social-post-summary">${article.summary}</p>
-        </div>
-        <div class="social-post-actions">
-          <span class="action-item" id="like-${article.id}">👍 <span class="action-val">0</span></span>
-          <span class="action-item" id="share-${article.id}">🔁 <span class="action-val">0</span></span>
-          <span class="action-item" id="comment-icon-${article.id}">💬 <span class="action-val">0</span></span>
-        </div>
-        <div class="social-comments-section" id="comments-section-${article.id}">
-          <!-- Les commentaires apparaîtront progressivement -->
-        </div>
-      `;
-
-      feedContainer.appendChild(socialPost);
-
-      // Lancer les incrémentations dynamiques décalées
+    // Lancer la publication en chaîne (séquence)
+    this.publishPostSequentially(scoringResult.posts, 0, () => {
+      // Une fois tous les articles animés, afficher le résumé quotidien
       setTimeout(() => {
-        this.animateSocialCounters(article.id, post.stats);
-      }, (index * 1500) + 300);
-    });
-
-    // Une fois que tout le fil a défilé (environ 6-7 secondes), on affiche le bouton ou le modal
-    const totalDuration = (scoringResult.posts.length * 1500) + 5000;
-    
-    // Alerte DM immédiate du patron sur Belgogram
-    setTimeout(() => {
+        this.showDaySummary(scoringResult);
+      }, 3500);
+      
+      // Dialogue du patron à la fin du défilement
       this.displayBossMessage(scoringResult.bossSpeech);
-    }, 2000);
-
-    setTimeout(() => {
-      this.showDaySummary(scoringResult);
-    }, totalDuration);
+    });
   },
 
-  // Animer les clics/likes en temps réel
-  animateSocialCounters(articleId, stats) {
+  // Chaîner les publications
+  publishPostSequentially(posts, index, onComplete) {
+    if (index >= posts.length) {
+      onComplete();
+      return;
+    }
+
+    const post = posts[index];
+    const feedContainer = document.getElementById("social-feed-list");
+    
+    const socialPost = document.createElement("article");
+    socialPost.className = "social-post post-social-anim";
+    
+    const article = post.article;
+    const isPutaclic = post.titleType === 'putaclic';
+
+    socialPost.innerHTML = `
+      <div class="social-post-header">
+        <span class="social-poster-avatar">🇧🇪</span>
+        <div>
+          <span class="social-poster-name">BelNews Officiel</span>
+          <span class="social-poster-handle">@belnews_actu</span>
+        </div>
+      </div>
+      <div class="social-post-content">
+        ${this.getMediaHTML(article)}
+        <h3 class="social-post-title">${post.titleText}</h3>
+        <p class="social-post-summary">${article.summary}</p>
+      </div>
+      <div class="social-post-actions">
+        <span class="action-item" id="like-${article.id}">👍 <span class="action-val">0</span></span>
+        <span class="action-item" id="share-${article.id}">🔁 <span class="action-val">0</span></span>
+        <span class="action-item" id="comment-icon-${article.id}">💬 <span class="action-val">0</span></span>
+      </div>
+      <div class="social-comments-section" id="comments-section-${article.id}">
+        <!-- Commentaires progressifs -->
+      </div>
+    `;
+
+    // Si c'est le premier post, on vire le placeholder
+    const placeholder = document.getElementById("social-placeholder");
+    if (placeholder) placeholder.remove();
+
+    feedContainer.appendChild(socialPost);
+    feedContainer.scrollTop = feedContainer.scrollHeight;
+
+    // Lancer les compteurs de clics et abonnés pour CE post
+    this.animateSinglePostCounters(article.id, post.stats, () => {
+      // Passer au post suivant après 1,5 seconde d'attente
+      setTimeout(() => {
+        this.publishPostSequentially(posts, index + 1, onComplete);
+      }, 1500);
+    });
+  },
+
+  // Animer compteurs d'abonnés globaux et likes d'un seul post de manière synchrone
+  animateSinglePostCounters(articleId, stats, callback) {
     const likeEl = document.querySelector(`#like-${articleId} .action-val`);
     const shareEl = document.querySelector(`#share-${articleId} .action-val`);
     const commEl = document.querySelector(`#comment-icon-${articleId} .action-val`);
@@ -467,11 +516,14 @@ window.BelNewsUI = {
     let currentLikes = 0;
     let currentShares = 0;
     
-    // Progression par paliers sur 4 secondes
+    // Découper l'incrémentation en 20 paliers sur 2,5 secondes
     const steps = 20;
-    const intervalTime = 150;
+    const intervalTime = 120;
     let currentStep = 0;
     
+    // Calcul de l'abonnement par palier pour la jauge globale d'en-tête
+    const subsGainedPerStep = Math.round(stats.subscribersGained / steps);
+
     const interval = setInterval(() => {
       currentStep++;
       
@@ -481,27 +533,43 @@ window.BelNewsUI = {
       likeEl.textContent = currentLikes.toLocaleString();
       shareEl.textContent = currentShares.toLocaleString();
       
-      // Micro-rebond sur changement
+      // Bouncer les jauges locales du post
       likeEl.parentElement.classList.add("stat-pop");
       shareEl.parentElement.classList.add("stat-pop");
       setTimeout(() => {
         likeEl.parentElement.classList.remove("stat-pop");
         shareEl.parentElement.classList.remove("stat-pop");
-      }, 100);
+      }, 80);
 
-      // Apparition cadencée des commentaires
-      if (currentStep === 5 && stats.commentsList[0]) this.addSingleComment(commentsSec, stats.commentsList[0], commEl, 1);
-      if (currentStep === 10 && stats.commentsList[1]) this.addSingleComment(commentsSec, stats.commentsList[1], commEl, 2);
-      if (currentStep === 15 && stats.commentsList[2]) this.addSingleComment(commentsSec, stats.commentsList[2], commEl, 3);
-      if (currentStep === 20 && stats.commentsList[3]) this.addSingleComment(commentsSec, stats.commentsList[3], commEl, 4);
+      // INCREMENTER LA JAUGE D'ABONNÉS GLOBALE EN DIRECT !
+      window.BelNewsState.changeSubscribersLive(subsGainedPerStep);
+      
+      // Animer l'en-tête d'abonnés globaux (effet de pop)
+      const globalSubsValue = document.getElementById("val-subscribers");
+      globalSubsValue.classList.add("stat-pop");
+      setTimeout(() => {
+        globalSubsValue.classList.remove("stat-pop");
+      }, 80);
+
+      // DÉCLENCHER LES IMPULSIONS 3D WEBGL DANS LE GRAPHE DE FOND !
+      if (window.BelNews3D && window.BelNews3D.triggerNetworkPulse) {
+        const pulseIntensity = Math.max(1, Math.round(stats.shares / 25));
+        window.BelNews3D.triggerNetworkPulse(pulseIntensity * 0.1);
+      }
+
+      // Rendu successif des commentaires
+      if (currentStep === 4 && stats.commentsList[0]) this.addSingleComment(commentsSec, stats.commentsList[0], commEl, 1);
+      if (currentStep === 9 && stats.commentsList[1]) this.addSingleComment(commentsSec, stats.commentsList[1], commEl, 2);
+      if (currentStep === 14 && stats.commentsList[2]) this.addSingleComment(commentsSec, stats.commentsList[2], commEl, 3);
+      if (currentStep === 19 && stats.commentsList[3]) this.addSingleComment(commentsSec, stats.commentsList[3], commEl, 4);
 
       if (currentStep >= steps) {
         clearInterval(interval);
+        callback(); // Lancer l'action suivante
       }
     }, intervalTime);
   },
 
-  // Insérer un commentaire dans la liste
   addSingleComment(container, comment, counterEl, countVal) {
     const el = document.createElement("div");
     el.className = "social-comment comment-slide-in";
@@ -512,15 +580,13 @@ window.BelNewsUI = {
     container.appendChild(el);
     container.scrollTop = container.scrollHeight;
 
-    // Incrémenter le badge
     counterEl.textContent = countVal;
     counterEl.parentElement.classList.add("stat-pop");
     setTimeout(() => {
       counterEl.parentElement.classList.remove("stat-pop");
-    }, 100);
+    }, 80);
   },
 
-  // Écran de fin de journée
   showDaySummary(scoringResult) {
     document.getElementById("summary-day-num").textContent = window.BelNewsState.currentDay;
     document.getElementById("summary-boss-speech").textContent = scoringResult.bossSpeech;
@@ -533,7 +599,6 @@ window.BelNewsUI = {
     const progressPercent = Math.min(100, Math.round((window.BelNewsState.subscribers / level.subscribersGoal) * 100));
     document.getElementById("stat-day-progress").textContent = progressPercent + "%";
 
-    // Liste des publications dans le récapitulatif
     const pubList = document.getElementById("summary-publications-list");
     pubList.innerHTML = "";
     
@@ -545,7 +610,7 @@ window.BelNewsUI = {
         <div class="pub-title-row">${isPutaclic ? pub.article.clickbaitTitle : pub.article.title}</div>
         <div class="pub-meta-row">
           <span>Traitement : <strong class="${isPutaclic ? 'color-danger' : 'color-success'}">${isPutaclic ? 'Sensationnel' : 'Sobre'}</strong></span>
-          <span>Fiabilité de base : <strong class="${pub.article.reliability >= 50 ? 'color-success' : 'color-danger'}">${pub.article.reliability}%</strong></span>
+          <span>Fiabilité : <strong class="${pub.article.reliability >= 50 ? 'color-success' : 'color-danger'}">${pub.article.reliability}%</strong></span>
         </div>
       `;
       pubList.appendChild(row);
@@ -554,11 +619,9 @@ window.BelNewsUI = {
     document.getElementById("modal-day-summary").classList.remove("hidden");
   },
 
-  // Déclencher le licenciement (Game Over)
   showFiringScreen() {
     const letter = document.getElementById("firing-letter-text");
     
-    // Générer la date fictive
     document.querySelectorAll(".current-date-fictive").forEach(el => {
       el.textContent = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
     });
@@ -575,21 +638,17 @@ window.BelNewsUI = {
     document.getElementById("modal-firing").classList.remove("hidden");
   },
 
-  // Déclencher le débriefing pédagogique final (Victoire)
   showDebriefScreen() {
     const state = window.BelNewsState;
     
-    // 1. Calculer les statistiques du profil éditorial
     const totalPubs = state.history.length;
     const putaclicCount = state.history.filter(item => item.titleType === 'putaclic').length;
     const sensationalismPercent = totalPubs > 0 ? Math.round((putaclicCount / totalPubs) * 100) : 0;
     const rigorPercent = 100 - sensationalismPercent;
 
-    // Proximité moyenne
     const sumProximity = state.history.reduce((sum, item) => sum + item.proximity, 0);
     const avgProximity = totalPubs > 0 ? Math.round(sumProximity / totalPubs) : 0;
 
-    // Remplir les barres radar
     document.getElementById("val-debrief-sensationalism").textContent = sensationalismPercent + "%";
     document.getElementById("radar-sensationalism").style.setProperty("--val-width", sensationalismPercent + "%");
     
@@ -599,7 +658,6 @@ window.BelNewsUI = {
     document.getElementById("val-debrief-proximity").textContent = avgProximity + "%";
     document.getElementById("radar-proximity").style.setProperty("--val-width", avgProximity + "%");
 
-    // 2. Jauge éthique cachée
     const ethicsScore = state.ethics;
     document.getElementById("val-debrief-ethics").textContent = `${ethicsScore} / 100`;
     
@@ -617,11 +675,9 @@ window.BelNewsUI = {
       ethicsVerdict.textContent = "Profil : Mercenaire du clic. Prêt à inventer des pandémies et à ruiner la confiance publique pour voir des chiffres grimper. Le patron est fier de vous, la démocratie un peu moins.";
     }
 
-    // 3. Rendu de la liste des actus importantes ignorées
     const ignoredContainer = document.getElementById("debrief-ignored-list");
     ignoredContainer.innerHTML = "";
 
-    // Filtrer les articles de fiabilité 100% que le joueur a ignorés
     const importantIgnored = state.ignoredHistory.filter(item => item.reliability === 100);
     
     if (importantIgnored.length === 0) {
@@ -640,12 +696,9 @@ window.BelNewsUI = {
     }
 
     document.getElementById("modal-debrief").classList.remove("hidden");
-    
-    // Déclencher les confettis de victoire !
     this.spawnVictoryConfetti();
   },
 
-  // Effet de pluie de confettis
   spawnVictoryConfetti() {
     const colors = ["#ff2d55", "#10b981", "#3b82f6", "#f59e0b", "#8b5cf6"];
     for (let i = 0; i < 100; i++) {
@@ -656,8 +709,6 @@ window.BelNewsUI = {
       particle.style.animationDelay = Math.random() * 2 + "s";
       particle.style.transform = `scale(${Math.random() * 0.6 + 0.4})`;
       document.body.appendChild(particle);
-      
-      // Nettoyage
       setTimeout(() => particle.remove(), 4000);
     }
   }

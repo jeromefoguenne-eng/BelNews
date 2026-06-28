@@ -8,7 +8,7 @@ window.BelNewsScoring = {
     { name: "Fleur de Liège", handle: "@fleur_lgeoise", avatar: "👩" },
     { name: "Chantal d'Uccle", handle: "@chanchan_uccloise", avatar: "👩‍🦳" },
     { name: "Yassine de Molenbeek", handle: "@yass_bxl", avatar: "👦" },
-    { name: "Sarah de Gand", handle: "@sarah_gent", avatar: "👩‍🦰" },
+    { name: "Sarah de Gand", handle: "@sarah_gent", avatar: "👩&zwj;🦰" },
     { name: "Le Vrai Débat", handle: "@le_vrai_debat", avatar: "🤔" },
     { name: "Frite Citoyenne", handle: "@frite_belge", avatar: "🍟" },
     { name: "L'Observateur Belge", handle: "@obs_belge", avatar: "🧐" },
@@ -25,20 +25,26 @@ window.BelNewsScoring = {
     let baseCred = impactData.credibility;
     let baseEthics = impactData.ethics;
     
+    const currentDay = window.BelNewsState.currentDay;
+    // Gradation : la lassitude de l'audience augmente les pénalités de crédibilité de 10% par jour
+    const penaltyMultiplier = 1 + (currentDay - 1) * 0.10;
+
     // La fiabilité affecte directement la crédibilité
     if (article.reliability < 50) {
       // C'est une fake news !
       if (isPutaclic) {
-        // En putaclic, c'est dévastateur pour la crédibilité
-        baseCred -= 35; 
-        baseSubs = Math.round(baseSubs * 1.5); // Mais ça buzz encore plus
+        baseCred = Math.round(baseCred * penaltyMultiplier) - 35; 
+        baseSubs = Math.round(baseSubs * 1.5); // Buzz plus important
       } else {
-        // Sobre, la fake news fait quand même baisser la confiance
-        baseCred -= 15;
+        baseCred = Math.round(baseCred * penaltyMultiplier) - 15;
+      }
+    } else {
+      // Dépêche fiable mais titre putaclic
+      if (isPutaclic) {
+        baseCred = Math.round(baseCred * penaltyMultiplier) - 15;
       }
     }
     
-    // Calcul final des réactions sur le réseau social
     const likes = Math.round(baseSubs * (isPutaclic ? 0.35 : 0.15));
     const shares = Math.round(baseSubs * (isPutaclic ? 0.15 : 0.05));
     const commentsCount = Math.round(baseSubs * 0.08);
@@ -61,7 +67,6 @@ window.BelNewsScoring = {
     const isPutaclic = titleType === 'putaclic';
     const isFake = article.reliability < 50;
     
-    // Listes de messages thématiques
     const templatesFake = [
       "Attendez, c'est vérifié ça ? Ça me paraît énorme... 🤨",
       "Encore de la désinformation pure. Honte à BelNews d'écrire ça !",
@@ -94,8 +99,7 @@ window.BelNewsScoring = {
       "M'enfin, c'est n'importe quoi !"
     ];
 
-    // Générer le nombre requis de commentaires
-    const limit = Math.min(6, count); // Max 6 commentaires affichés par post pour le visuel
+    const limit = Math.min(6, count); 
     for (let i = 0; i < limit; i++) {
       const user = this.socialUsernames[Math.floor(Math.random() * this.socialUsernames.length)];
       let text = "";
@@ -137,7 +141,6 @@ window.BelNewsScoring = {
       dayCred += stats.credibilityChange;
       dayEthics += stats.ethicsChange;
       
-      // Ajouter au flux social détaillé
       detailedPosts.push({
         article: pub.article,
         titleType: pub.titleType,
@@ -146,22 +149,22 @@ window.BelNewsScoring = {
       });
     });
 
-    // Pression du patron : s'ajuste selon la performance du jour
-    // Si l'audience progresse bien, la pression baisse. Sinon, elle monte.
     const level = window.BelNewsState.getCurrentLevel();
-    // Seuil de croissance requis par jour estimé
-    const dailyTarget = Math.round(level.subscribersGoal / level.days);
+    const currentDay = window.BelNewsState.currentDay;
+    
+    // Gradation : la cible quotidienne augmente de 15% par jour de niveau
+    const dailyTargetBase = Math.round(level.subscribersGoal / level.days);
+    const dailyTarget = Math.round(dailyTargetBase * (1 + (currentDay - 1) * 0.15));
     
     let pressureChange = 0;
     if (daySubs >= dailyTarget) {
-      pressureChange = -15; // Ouf, le patron se détend
+      pressureChange = -15; // Le patron se détend
     } else if (daySubs >= dailyTarget * 0.5) {
-      pressureChange = 5;  // Un peu déçu
+      pressureChange = 5;  // Légère tension
     } else {
-      pressureChange = 25; // Le patron s'énerve !
+      pressureChange = 25; // Grosse colère !
     }
 
-    // Le gain de revenus dépend du lectorat total
     const revenueGained = Math.round(daySubs * 0.15 + (window.BelNewsState.subscribers * 0.02));
 
     // Mettre à jour l'état réactif
@@ -171,12 +174,18 @@ window.BelNewsScoring = {
     window.BelNewsState.changeEthics(dayEthics);
     window.BelNewsState.changeBossPressure(pressureChange);
 
+    // Mettre à jour la couleur du thème 3D
+    const hasFakeNews = selectedArticles.some(pub => pub.article.reliability < 50);
+    if (window.BelNews3D && window.BelNews3D.updateTheme) {
+      window.BelNews3D.updateTheme(window.BelNewsState.credibility, hasFakeNews);
+    }
+
     // Enregistrer chaque publication dans l'historique de l'état
     detailedPosts.forEach(post => {
       window.BelNewsState.addPublication(post.article, post.titleType, post.titleText, post.stats);
     });
 
-    // Choix du feedback du patron basé sur les clics du jour
+    // Feedback du patron
     let feedbackMood = "medium";
     if (daySubs >= dailyTarget * 1.2) {
       feedbackMood = "excellent";

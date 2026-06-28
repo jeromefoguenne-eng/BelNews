@@ -1,10 +1,10 @@
-// Pool de dépêches d'actualités belges pour BelNews
+// Pool de dépêches d'actualités belges enrichies pour BelNews
 window.BelNewsPool = [
   {
     id: "pol-1",
     title: "Le gouvernement fédéral entame de nouvelles négociations budgétaires",
     clickbaitTitle: "FAILLITE DE L'ÉTAT BELGE ? Les ministres s'écharpent en secret sur vos impôts !",
-    summary: "Les partis de la coalition se réunissent au Château de Val Duchesse pour boucher un trou budgétaire de 2 milliards d'euros.",
+    summary: "Les partis de la coalition se réunissent à Val Duchesse. Ambiance glaciale : le ton monte autour de la énième réforme des frites nationales et de la taxation du houblon.",
     category: "Politique",
     reliability: 100,
     source: "Agence Belga",
@@ -12,22 +12,16 @@ window.BelNewsPool = [
     proximity: 100,
     exclusivity: false,
     timeRemaining: 2,
-    impact: {
-      subscribers: 150,
-      credibility: 5,
-      ethics: 10
-    },
-    clickbaitImpact: {
-      subscribers: 600,
-      credibility: -15,
-      ethics: -10
-    }
+    mediaType: "photo",
+    mediaTheme: "linear-gradient(135deg, #1e293b, #0f172a)",
+    impact: { subscribers: 150, credibility: 5, ethics: 10 },
+    clickbaitImpact: { subscribers: 600, credibility: -15, ethics: -10 }
   },
   {
     id: "fd-1",
     title: "Un cambriolage insolite signalé dans une friterie à Namur",
-    clickbaitTitle: "SCANDALE DES FRITES : Il vole 50 kilos de graisse de bœuf et commet l'irréparable !",
-    summary: "Un individu s'est introduit dans une friterie locale pour dérober uniquement des stocks de graisse végétale et de sauces.",
+    clickbaitTitle: "SCANDALE DE LA FRITE : Un malfrat s'empare de 50 kg de graisse de bœuf !",
+    summary: "Un individu s'est introduit dans le temple de la frite de Namur pour dérober uniquement des stocks de blanc de bœuf. La police enquête sur un réseau suspect de 'fricadelles clandestines'.",
     category: "Faits Divers",
     reliability: 90,
     source: "La Meuse",
@@ -35,45 +29,33 @@ window.BelNewsPool = [
     proximity: 85,
     exclusivity: true,
     timeRemaining: 1,
-    impact: {
-      subscribers: 250,
-      credibility: 0,
-      ethics: 5
-    },
-    clickbaitImpact: {
-      subscribers: 850,
-      credibility: -10,
-      ethics: -5
-    }
+    mediaType: "gif",
+    mediaTheme: "linear-gradient(135deg, #78350f, #451a03)",
+    impact: { subscribers: 250, credibility: 0, ethics: 5 },
+    clickbaitImpact: { subscribers: 850, credibility: -10, ethics: -5 }
   },
   {
     id: "clim-1",
     title: "Inondations redoutées en Ardenne suite aux pluies continues",
-    clickbaitTitle: "APOCALYPSE ROUGE : La Wallonie va-t-elle finir sous les eaux d'ici 24 heures ?",
-    summary: "L'IRM émet une alerte jaune pour les provinces de Liège et de Luxembourg face à la crue rapide de l'Ourthe.",
+    clickbaitTitle: "DRASCHE NATIONALE : La Wallonie va-t-elle couler sous la pluie ?",
+    summary: "L'IRM émet une alerte orange. L'Ourthe menace de sortir de son lit. Les citoyens sont invités à ranger leurs barbecues de jardin et à sortir les barques.",
     category: "Climat",
     reliability: 100,
-    source: "IRM (Institut Royal Météorologique)",
+    source: "IRM",
     emoji: "🌧️",
     proximity: 95,
     exclusivity: false,
     timeRemaining: 1,
-    impact: {
-      subscribers: 200,
-      credibility: 10,
-      ethics: 15
-    },
-    clickbaitImpact: {
-      subscribers: 900,
-      credibility: -20,
-      ethics: -10
-    }
+    mediaType: "video",
+    mediaTheme: "linear-gradient(135deg, #0284c7, #0369a1)",
+    impact: { subscribers: 200, credibility: 10, ethics: 15 },
+    clickbaitImpact: { subscribers: 900, credibility: -20, ethics: -10 }
   },
   {
     id: "mon-1",
     title: "Le Roi Philippe visite une école technique à Courtrai",
-    clickbaitTitle: "LE ROI RECADRÉ ! La gaffe impériale du souverain qui choque la Flandre !",
-    summary: "Le souverain a visité les ateliers de robotique d'une école flamande et a félicité les élèves en français.",
+    clickbaitTitle: "GROSSE GAFFE ROYALE : Philippe heurte la sensibilité flamande en parlant de frites !",
+    summary: "Le souverain a visité des ateliers mécaniques et a félicité les élèves dans un néerlandais qualifié de 'très créatif'.",
     category: "Monarchie",
     reliability: 95,
     source: "RTL Info",
@@ -81,45 +63,33 @@ window.BelNewsPool = [
     proximity: 100,
     exclusivity: false,
     timeRemaining: 2,
-    impact: {
-      subscribers: 100,
-      credibility: 5,
-      ethics: 8
-    },
-    clickbaitImpact: {
-      subscribers: 750,
-      credibility: -25,
-      ethics: -15
-    }
+    mediaType: "photo",
+    mediaTheme: "linear-gradient(135deg, #ca8a04, #854d0e)",
+    impact: { subscribers: 100, credibility: 5, ethics: 8 },
+    clickbaitImpact: { subscribers: 750, credibility: -25, ethics: -15 }
   },
   {
     id: "fake-1",
     title: "Une rumeur prétend que le Manneken Pis va être habillé en habit de sponsor privé",
-    clickbaitTitle: "PRIVATISATION DE MANNEKEN PIS : Coca-Cola achète le symbole de Bruxelles !",
-    summary: "Un groupe de citoyens s'insurge contre un projet fictif d'habillage publicitaire de la célèbre fontaine.",
+    clickbaitTitle: "PRIVATISATION DE MANNEKEN PIS : Coca-Cola achète la statue la plus connue de Bruxelles !",
+    summary: "Un groupe Facebook prétend qu'un accord secret prévoit d'habiller le Manneken Pis avec les couleurs de grandes multinationales pour combler le déficit budgétaire bruxellois.",
     category: "Faits Divers",
     reliability: 10,
-    source: "Rumeur sur Facebook",
-    emoji: "⛲",
+    source: "Rumeur Facebook",
+    emoji: " Fountain",
     proximity: 90,
     exclusivity: false,
     timeRemaining: 2,
-    impact: {
-      subscribers: 400,
-      credibility: -30,
-      ethics: -20
-    },
-    clickbaitImpact: {
-      subscribers: 1200,
-      credibility: -60,
-      ethics: -40
-    }
+    mediaType: "photo",
+    mediaTheme: "linear-gradient(135deg, #dc2626, #991b1b)",
+    impact: { subscribers: 400, credibility: -30, ethics: -20 },
+    clickbaitImpact: { subscribers: 1200, credibility: -60, ethics: -40 }
   },
   {
     id: "san-1",
     title: "Campagne de vaccination préventive contre la grippe en pharmacie",
-    clickbaitTitle: "PUCES DANS LES VACCINS ? Ce pharmacien belge brise le silence et balance tout !",
-    summary: "Les pharmaciens de Belgique sont désormais autorisés à administrer directement le vaccin contre la grippe saisonnière.",
+    clickbaitTitle: "PUCES 5G DANS LES DOSES : Le plan secret de Big Pharma démasqué par un docteur belge ?",
+    summary: "Les officines belges sont désormais agréées pour injecter le vaccin contre la grippe. Les complotistes s'emballent sur des puces de suivi cachées dans le sérum.",
     category: "Santé",
     reliability: 100,
     source: "Ministère de la Santé",
@@ -127,22 +97,16 @@ window.BelNewsPool = [
     proximity: 100,
     exclusivity: false,
     timeRemaining: 3,
-    impact: {
-      subscribers: 80,
-      credibility: 15,
-      ethics: 20
-    },
-    clickbaitImpact: {
-      subscribers: 1400,
-      credibility: -80,
-      ethics: -60
-    }
+    mediaType: "video",
+    mediaTheme: "linear-gradient(135deg, #0d9488, #115e59)",
+    impact: { subscribers: 80, credibility: 15, ethics: 20 },
+    clickbaitImpact: { subscribers: 1400, credibility: -80, ethics: -60 }
   },
   {
     id: "sp-1",
     title: "Les Diables Rouges s'imposent face à l'Italie en Ligue des Nations",
-    clickbaitTitle: "DIABLES DE FEU ! La raclée historique qui humilie les champions italiens !",
-    summary: "L'équipe nationale de football a remporté son match 2-1 après une performance solide à Bruxelles.",
+    clickbaitTitle: "DIABLES DE FEU ! La raclée historique qui humilie les Italiens à domicile !",
+    summary: "L'équipe nationale s'impose 2-1 lors d'un match sous tension. Les supporters fêtent cette victoire avec de la bière et des cris patriotiques.",
     category: "Sport",
     reliability: 100,
     source: "RTBF Sport",
@@ -150,22 +114,16 @@ window.BelNewsPool = [
     proximity: 80,
     exclusivity: false,
     timeRemaining: 1,
-    impact: {
-      subscribers: 300,
-      credibility: 2,
-      ethics: 5
-    },
-    clickbaitImpact: {
-      subscribers: 950,
-      credibility: -5,
-      ethics: -5
-    }
+    mediaType: "gif",
+    mediaTheme: "linear-gradient(135deg, #b91c1c, #7f1d1d)",
+    impact: { subscribers: 300, credibility: 2, ethics: 5 },
+    clickbaitImpact: { subscribers: 950, credibility: -5, ethics: -5 }
   },
   {
     id: "eco-1",
     title: "Une hausse tarifaire annoncée sur les abonnements de train de la SNCB",
-    clickbaitTitle: "SNCB : Le scandale des prix ! La hausse secrète pour financer les retards !",
-    summary: "La SNCB annonce une indexation de ses tarifs de 3,2% à partir de février prochain face à l'inflation.",
+    clickbaitTitle: "ESCROQUERIE SNCB : La hausse des prix secrète pour financer les pannes !",
+    summary: "La SNCB annonce une indexation de ses tarifs de 3,2%. Les usagers grondent : 'déjà que les trains n'arrivent jamais, on va payer plus cher pour attendre sur le quai ?'.",
     category: "Economie",
     reliability: 100,
     source: "SNCB Communiqué",
@@ -173,45 +131,33 @@ window.BelNewsPool = [
     proximity: 95,
     exclusivity: false,
     timeRemaining: 3,
-    impact: {
-      subscribers: 180,
-      credibility: 5,
-      ethics: 10
-    },
-    clickbaitImpact: {
-      subscribers: 750,
-      credibility: -15,
-      ethics: -10
-    }
+    mediaType: "video",
+    mediaTheme: "linear-gradient(135deg, #2563eb, #1e3a8a)",
+    impact: { subscribers: 180, credibility: 5, ethics: 10 },
+    clickbaitImpact: { subscribers: 750, credibility: -15, ethics: -10 }
   },
   {
     id: "fake-2",
     title: "Étude douteuse indiquant que boire de la bière belge protège des UV",
     clickbaitTitle: "C'EST PROUVÉ ! Boire 3 Triple Karmeliet par jour empêche les coups de soleil !",
-    summary: "Une infographie partagée sur les réseaux affirme sans fondement scientifique que le houblon filtre les rayons solaires.",
+    summary: "Une infographie devenue virale affirme que le houblon belge contient des antioxydants formant une barrière protectrice contre les rayons solaires. La communauté scientifique s'inquiète.",
     category: "Santé",
     reliability: 5,
-    source: "Compte Tik Tok belge anonyme",
+    source: "Réseaux Sociaux",
     emoji: "🍺",
     proximity: 85,
     exclusivity: false,
     timeRemaining: 2,
-    impact: {
-      subscribers: 350,
-      credibility: -40,
-      ethics: -30
-    },
-    clickbaitImpact: {
-      subscribers: 1500,
-      credibility: -90,
-      ethics: -50
-    }
+    mediaType: "gif",
+    mediaTheme: "linear-gradient(135deg, #d97706, #78350f)",
+    impact: { subscribers: 350, credibility: -40, ethics: -30 },
+    clickbaitImpact: { subscribers: 1500, credibility: -90, ethics: -50 }
   },
   {
     id: "int-1",
     title: "Nouveau sommet européen à Bruxelles sur l'accord commercial avec l'Amérique du Sud",
-    clickbaitTitle: "BLOCUS DE BRUXELLES : Les tracteurs européens s'apprêtent à paralyser la capitale !",
-    summary: "Les dirigeants européens se réunissent pour débattre du traité Mercosur sous haute surveillance policière.",
+    clickbaitTitle: "BLOCUS DE BRUXELLES : Les tracteurs vont-ils complètement raser le quartier européen ?",
+    summary: "Les dirigeants se réunissent sous haute protection. Les agriculteurs belges prévoient de bloquer la capitale avec leurs tracteurs en signe de protestation.",
     category: "International",
     reliability: 100,
     source: "Le Soir",
@@ -219,68 +165,50 @@ window.BelNewsPool = [
     proximity: 70,
     exclusivity: false,
     timeRemaining: 2,
-    impact: {
-      subscribers: 120,
-      credibility: 10,
-      ethics: 12
-    },
-    clickbaitImpact: {
-      subscribers: 680,
-      credibility: -10,
-      ethics: -5
-    }
+    mediaType: "photo",
+    mediaTheme: "linear-gradient(135deg, #4f46e5, #3730a3)",
+    impact: { subscribers: 120, credibility: 10, ethics: 12 },
+    clickbaitImpact: { subscribers: 680, credibility: -10, ethics: -5 }
   },
   {
     id: "cult-1",
     title: "Le festival de Dour dévoile ses premiers noms pour l'édition prochaine",
-    clickbaitTitle: "FESTIVAL DE DOUR : Drogues, décibels et programmation infernale déballées !",
-    summary: "Les organisateurs annoncent les 15 premiers artistes hip-hop et techno du festival estival.",
+    clickbaitTitle: "FESTIVAL DE DOUR : Les secrets inavouables de la programmation techno dévoilés !",
+    summary: "Les organisateurs annoncent les premiers artistes électro et techno de l'été. Les tentes se préparent déjà pour 5 jours de fête nonante-neuf pour cent sauvage.",
     category: "Culture",
     reliability: 100,
-    source: "Dour Festival Press",
+    source: "Dour Press",
     emoji: "🎵",
     proximity: 80,
     exclusivity: true,
     timeRemaining: 3,
-    impact: {
-      subscribers: 220,
-      credibility: 2,
-      ethics: 5
-    },
-    clickbaitImpact: {
-      subscribers: 780,
-      credibility: -8,
-      ethics: -5
-    }
+    mediaType: "video",
+    mediaTheme: "linear-gradient(135deg, #7c3aed, #5b21b6)",
+    impact: { subscribers: 220, credibility: 2, ethics: 5 },
+    clickbaitImpact: { subscribers: 780, credibility: -8, ethics: -5 }
   },
   {
     id: "tech-1",
     title: "L'application de paiement Payconiq subit une panne temporaire de 2 heures",
-    clickbaitTitle: "CRASH BANCAIRE EN BELGIQUE ? Plus aucun moyen de payer votre pain !",
-    summary: "Un problème de serveur DNS a rendu le service de paiement par QR code inaccessible en Belgique.",
+    clickbaitTitle: "PANNE GÉANTE PAYCONIQ : Le système s'effondre, impossible de payer votre pain !",
+    summary: "Un incident réseau a bloqué les paiements par QR code. Des milliers de Belges bloqués aux caisses des supermarchés sans argent liquide.",
     category: "Technologie",
     reliability: 95,
-    source: "Payconiq Bancontact",
+    source: "Bancontact Payconiq",
     emoji: "📱",
     proximity: 95,
     exclusivity: false,
     timeRemaining: 1,
-    impact: {
-      subscribers: 190,
-      credibility: 5,
-      ethics: 8
-    },
-    clickbaitImpact: {
-      subscribers: 800,
-      credibility: -20,
-      ethics: -10
-    }
+    mediaType: "photo",
+    mediaTheme: "linear-gradient(135deg, #059669, #065f46)",
+    impact: { subscribers: 190, credibility: 5, ethics: 8 },
+    clickbaitImpact: { subscribers: 800, credibility: -20, ethics: -10 }
   },
   {
     id: "pol-2",
-    title: "Une commune belge décide de tester la semaine de 4 jours pour son personnel",
-    clickbaitTitle: "FONCTIONNAIRES PAYÉS À NE RIEN FAIRE ? Cette commune belge qui ose tout !",
-    summary: "La commune de Chaudfontaine lance une phase pilote de réduction du temps de travail sans perte salariale.",
+    title: "Une commune belge décide de tester la semaine de 4 jours",
+    clickbaitTitle: "SCANDALE DE LA PARESSE : Des fonctionnaires payés 5 jours à ne travailler que 4 !",
+    summary: "La commune de Chaudfontaine teste un projet pilote de réduction du temps de travail pour les agents communaux.",
     category: "Politique",
     reliability: 100,
     source: "Sudinfo",
@@ -288,22 +216,16 @@ window.BelNewsPool = [
     proximity: 90,
     exclusivity: true,
     timeRemaining: 2,
-    impact: {
-      subscribers: 200,
-      credibility: 5,
-      ethics: 10
-    },
-    clickbaitImpact: {
-      subscribers: 750,
-      credibility: -12,
-      ethics: -10
-    }
+    mediaType: "photo",
+    mediaTheme: "linear-gradient(135deg, #0891b2, #075985)",
+    impact: { subscribers: 200, credibility: 5, ethics: 10 },
+    clickbaitImpact: { subscribers: 750, credibility: -12, ethics: -10 }
   },
   {
     id: "fd-2",
     title: "Un sanglier aperçu en plein centre-ville de Liège",
-    clickbaitTitle: "BESTIAL ! Un monstre sauvage sème la terreur en plein cœur du Carré !",
-    summary: "L'animal s'est égaré dans les rues commerçantes tôt le matin avant d'être pris en charge par les services forestiers.",
+    clickbaitTitle: "MONSTRE SAUVAGE À LIÈGE : Un sanglier enragé attaque les clients d'un bar !",
+    summary: "L'animal s'est égaré dans le Carré tôt le matin. Les pompiers l'ont capturé sans incident majeur, malgré les légendes qui parlent d'une bête féroce.",
     category: "Faits Divers",
     reliability: 100,
     source: "RTL Info",
@@ -311,22 +233,16 @@ window.BelNewsPool = [
     proximity: 85,
     exclusivity: false,
     timeRemaining: 1,
-    impact: {
-      subscribers: 240,
-      credibility: 2,
-      ethics: 5
-    },
-    clickbaitImpact: {
-      subscribers: 890,
-      credibility: -10,
-      ethics: -5
-    }
+    mediaType: "gif",
+    mediaTheme: "linear-gradient(135deg, #57534e, #292524)",
+    impact: { subscribers: 240, credibility: 2, ethics: 5 },
+    clickbaitImpact: { subscribers: 890, credibility: -10, ethics: -5 }
   },
   {
     id: "fake-3",
     title: "Fausse alerte à la contamination de l'eau du robinet à Mons",
-    clickbaitTitle: "EAU EMPOISONNÉE À MONS : Ne buvez plus l'eau du robinet, danger mortel !",
-    summary: "Un faux SMS circule prétendant qu'une bactérie toxique a été détectée dans le réseau de distribution montois.",
+    clickbaitTitle: "EAU EMPOISONNÉE À MONS : Danger mortel, ne buvez plus une seule goutte !",
+    summary: "Un faux SMS alarmiste circule affirmant que l'eau courante de Mons est contaminée par des toxines. La société des eaux dément vigoureusement.",
     category: "Santé",
     reliability: 1,
     source: "Réseaux sociaux",
@@ -334,22 +250,16 @@ window.BelNewsPool = [
     proximity: 90,
     exclusivity: false,
     timeRemaining: 1,
-    impact: {
-      subscribers: 500,
-      credibility: -60,
-      ethics: -40
-    },
-    clickbaitImpact: {
-      subscribers: 1800,
-      credibility: -110,
-      ethics: -70
-    }
+    mediaType: "photo",
+    mediaTheme: "linear-gradient(135deg, #dc2626, #b91c1c)",
+    impact: { subscribers: 500, credibility: -60, ethics: -40 },
+    clickbaitImpact: { subscribers: 1800, credibility: -110, ethics: -70 }
   },
   {
     id: "eco-2",
     title: "Le groupe Delhaize annonce d'excellents résultats pour ses magasins franchisés",
-    clickbaitTitle: "EXPLOITATION OU SUCCÈS ? L'argent secret caché derrière la franchise Delhaize !",
-    summary: "L'enseigne au lion affiche une hausse de 4% de son chiffre d'affaires après son passage au modèle franchisé.",
+    clickbaitTitle: "DELHAIZE CASH : La fortune colossale cachée dans les rayons des franchisés !",
+    summary: "L'enseigne au Lion affiche une hausse de 4% de son chiffre d'affaires après le passage tumultueux de ses succursales à un modèle de franchise indépendante.",
     category: "Economie",
     reliability: 95,
     source: "L'Echo",
@@ -357,45 +267,33 @@ window.BelNewsPool = [
     proximity: 95,
     exclusivity: false,
     timeRemaining: 3,
-    impact: {
-      subscribers: 130,
-      credibility: 8,
-      ethics: 10
-    },
-    clickbaitImpact: {
-      subscribers: 690,
-      credibility: -15,
-      ethics: -8
-    }
+    mediaType: "video",
+    mediaTheme: "linear-gradient(135deg, #15803d, #14532d)",
+    impact: { subscribers: 130, credibility: 8, ethics: 10 },
+    clickbaitImpact: { subscribers: 690, credibility: -15, ethics: -8 }
   },
   {
     id: "cult-2",
-    title: "Une toile inconnue attribuée à Magritte découverte dans un grenier bruxellois",
-    clickbaitTitle: "LE TRÉSOR CACHÉ : Cette peinture de Magritte vaut-elle des dizaines de millions ?",
-    summary: "Des experts étudient une peinture surréaliste retrouvée lors d'un inventaire de succession à Ixelles.",
+    title: "Une toile inconnue attribuée à Magritte découverte dans un grenier",
+    clickbaitTitle: "LE RETOUR DE MAGRITTE : Une œuvre inestimable cachée sous la poussière d'Ixelles !",
+    summary: "Des experts étudient une mystérieuse toile surréaliste représentant une frite géante sous un chapeau melon.",
     category: "Culture",
     reliability: 80,
-    source: "Musée des Beaux-Arts",
+    source: "Beaux-Arts Bruxelles",
     emoji: "🍏",
     proximity: 95,
     exclusivity: true,
     timeRemaining: 3,
-    impact: {
-      subscribers: 170,
-      credibility: 12,
-      ethics: 10
-    },
-    clickbaitImpact: {
-      subscribers: 720,
-      credibility: -5,
-      ethics: -5
-    }
+    mediaType: "photo",
+    mediaTheme: "linear-gradient(135deg, #475569, #334155)",
+    impact: { subscribers: 170, credibility: 12, ethics: 10 },
+    clickbaitImpact: { subscribers: 720, credibility: -5, ethics: -5 }
   },
   {
     id: "clim-2",
     title: "Le record de chaleur battu pour un mois de juin à Uccle",
-    clickbaitTitle: "BELGIQUE CANICULE : 38°C attendus ! Sommes-nous prêts à griller sur place ?",
-    summary: "La station d'Uccle enregistre sa température la plus élevée depuis le début des relevés pour cette période.",
+    clickbaitTitle: "BELGIQUE CANICULE : 38°C attendus, les cerveaux belges s'apprêtent à fondre !",
+    summary: "Uccle enregistre sa température la plus élevée. Les ventilateurs s'arrachent dans tous les magasins d'électroménager de Bruxelles.",
     category: "Climat",
     reliability: 100,
     source: "IRM",
@@ -403,45 +301,33 @@ window.BelNewsPool = [
     proximity: 100,
     exclusivity: false,
     timeRemaining: 2,
-    impact: {
-      subscribers: 220,
-      credibility: 10,
-      ethics: 15
-    },
-    clickbaitImpact: {
-      subscribers: 880,
-      credibility: -20,
-      ethics: -10
-    }
+    mediaType: "gif",
+    mediaTheme: "linear-gradient(135deg, #ea580c, #9a3412)",
+    impact: { subscribers: 220, credibility: 10, ethics: 15 },
+    clickbaitImpact: { subscribers: 880, credibility: -20, ethics: -10 }
   },
   {
     id: "int-2",
-    title: "L'OTAN organise un exercice militaire aérien d'envergure au-dessus de la mer du Nord",
-    clickbaitTitle: "SIMULATION DE GUERRE MONDIALE : Les avions de chasse de l'OTAN survolent la Belgique !",
-    summary: "L'exercice comprend une cinquantaine d'aéronefs issus de 10 pays membres pour tester la défense commune.",
+    title: "L'OTAN organise un exercice militaire aérien d'envergure",
+    clickbaitTitle: "SIMULATION DE GUERRE ATOMIQUE : Des avions de chasse de l'OTAN survolent la mer du Nord !",
+    summary: "L'exercice regroupe 50 avions de combat pour valider la coordination de la défense alliée au nord de la Belgique.",
     category: "International",
     reliability: 100,
-    source: "OTAN Communiqué",
+    source: "OTAN",
     emoji: "✈️",
     proximity: 60,
     exclusivity: false,
     timeRemaining: 2,
-    impact: {
-      subscribers: 110,
-      credibility: 8,
-      ethics: 10
-    },
-    clickbaitImpact: {
-      subscribers: 650,
-      credibility: -15,
-      ethics: -5
-    }
+    mediaType: "video",
+    mediaTheme: "linear-gradient(135deg, #1e3a8a, #0f172a)",
+    impact: { subscribers: 110, credibility: 8, ethics: 10 },
+    clickbaitImpact: { subscribers: 650, credibility: -15, ethics: -5 }
   },
   {
     id: "mon-2",
     title: "La Princesse Elisabeth fête son anniversaire dans la discrétion",
-    clickbaitTitle: "LE MARIAGE SECRET d'Elisabeth ? La famille royale tremble face aux révélations !",
-    summary: "L'héritière du trône a célébré ses 25 ans en famille à Oxford où elle poursuit ses études.",
+    clickbaitTitle: "SECRET DE COUR : Elisabeth et son amoureux secret ? La couronne tremble !",
+    summary: "L'héritière du trône a célébré ses 25 ans avec sobriété à Oxford. Les journaux people belges s'affolent sur d'éventuelles fiançailles secrètes.",
     category: "Monarchie",
     reliability: 95,
     source: "Soir Mag",
@@ -449,22 +335,16 @@ window.BelNewsPool = [
     proximity: 95,
     exclusivity: false,
     timeRemaining: 3,
-    impact: {
-      subscribers: 140,
-      credibility: 5,
-      ethics: 8
-    },
-    clickbaitImpact: {
-      subscribers: 820,
-      credibility: -30,
-      ethics: -20
-    }
+    mediaType: "photo",
+    mediaTheme: "linear-gradient(135deg, #db2777, #9d174d)",
+    impact: { subscribers: 140, credibility: 5, ethics: 8 },
+    clickbaitImpact: { subscribers: 820, credibility: -30, ethics: -20 }
   },
   {
     id: "sp-2",
-    title: "Le coureur belge Remco Evenepoel remporte le contre-la-montre du Critérium",
-    clickbaitTitle: "LE MONSTRE REMCO ! Il écrase la concurrence et bat un record inhumain !",
-    summary: "Le jeune cycliste s'est imposé avec 35 secondes d'avance sur son dauphin lors de l'étape chronométrée.",
+    title: "Le coureur belge Remco Evenepoel remporte le contre-la-montre",
+    clickbaitTitle: "MONSTRE DU CYCLISME : Remco pulvérise le temps mondial de manière inhumaine !",
+    summary: "Le jeune prodige s'impose lors du Critérium avec une avance insolente de 35 secondes, devenant le héros national de la semaine.",
     category: "Sport",
     reliability: 100,
     source: "DirectVélo",
@@ -472,68 +352,50 @@ window.BelNewsPool = [
     proximity: 90,
     exclusivity: false,
     timeRemaining: 1,
-    impact: {
-      subscribers: 280,
-      credibility: 5,
-      ethics: 5
-    },
-    clickbaitImpact: {
-      subscribers: 910,
-      credibility: -5,
-      ethics: -5
-    }
+    mediaType: "gif",
+    mediaTheme: "linear-gradient(135deg, #16a34a, #166534)",
+    impact: { subscribers: 280, credibility: 5, ethics: 5 },
+    clickbaitImpact: { subscribers: 910, credibility: -5, ethics: -5 }
   },
   {
     id: "tech-2",
     title: "L'Université de Liège intègre des outils d'IA générative dans ses examens",
     clickbaitTitle: "LA FIN DES DIPLÔMES ? ChatGPT va corriger et noter les étudiants liégeois !",
-    summary: "Un projet pilote encadre l'utilisation éthique de l'IA pour la rédaction de mémoires universitaires.",
+    summary: "Un projet pilote encadre l'utilisation de l'IA pour la rédaction de mémoires universitaires. Les critiques parlent de paresse académique assistée.",
     category: "Technologie",
     reliability: 100,
-    source: "ULiège Info",
+    source: "ULiège",
     emoji: "🎓",
     proximity: 95,
     exclusivity: true,
     timeRemaining: 2,
-    impact: {
-      subscribers: 160,
-      credibility: 8,
-      ethics: 10
-    },
-    clickbaitImpact: {
-      subscribers: 730,
-      credibility: -15,
-      ethics: -10
-    }
+    mediaType: "video",
+    mediaTheme: "linear-gradient(135deg, #4f46e5, #312e81)",
+    impact: { subscribers: 160, credibility: 8, ethics: 10 },
+    clickbaitImpact: { subscribers: 730, credibility: -15, ethics: -10 }
   },
   {
     id: "fake-4",
     title: "Rumeur sur la fermeture définitive du parc Walibi Belgium en Wallonie",
-    clickbaitTitle: "ADIEU WALIBI : Le parc ferme ses portes pour toujours à cause des faillites !",
-    summary: "Des publications virales détournent un communiqué sur des travaux de maintenance pour crier à la faillite.",
+    clickbaitTitle: "ADIEU WALIBI : Le célèbre parc d'attractions ferme ses portes à jamais !",
+    summary: "Des publications virales affirment que le parc va fermer ses attractions suite à d'importants revers financiers. Walibi dément et annonce une nouvelle attraction aquatique.",
     category: "Faits Divers",
     reliability: 5,
-    source: "Groupe Facebook 'Mons Info'",
+    source: "Réseaux sociaux",
     emoji: "🎢",
     proximity: 95,
     exclusivity: false,
     timeRemaining: 2,
-    impact: {
-      subscribers: 300,
-      credibility: -35,
-      ethics: -25
-    },
-    clickbaitImpact: {
-      subscribers: 1350,
-      credibility: -70,
-      ethics: -35
-    }
+    mediaType: "photo",
+    mediaTheme: "linear-gradient(135deg, #ea580c, #7c2d12)",
+    impact: { subscribers: 300, credibility: -35, ethics: -25 },
+    clickbaitImpact: { subscribers: 1350, credibility: -70, ethics: -35 }
   },
   {
     id: "pol-3",
     title: "La Belgique s'accorde sur la baisse du taux de TVA sur l'électricité",
-    clickbaitTitle: "CADEAU EMPOISONNÉ ? La vérité cachée derrière votre prochaine facture d'électricité !",
-    summary: "Le gouvernement prolonge indéfiniment la réduction du taux de TVA à 6% sur l'énergie domestique.",
+    clickbaitTitle: "CADEAU PUBLIC POISONNEUX : Le piège caché derrière votre prochaine facture d'électricité !",
+    summary: "Le gouvernement maintient la TVA à 6% sur l'énergie. Les syndicats craignent une compensation discrète sur les accises régionales.",
     category: "Politique",
     reliability: 100,
     source: "RTBF Info",
@@ -541,15 +403,9 @@ window.BelNewsPool = [
     proximity: 100,
     exclusivity: false,
     timeRemaining: 2,
-    impact: {
-      subscribers: 180,
-      credibility: 5,
-      ethics: 10
-    },
-    clickbaitImpact: {
-      subscribers: 780,
-      credibility: -15,
-      ethics: -10
-    }
+    mediaType: "photo",
+    mediaTheme: "linear-gradient(135deg, #059669, #047857)",
+    impact: { subscribers: 180, credibility: 5, ethics: 10 },
+    clickbaitImpact: { subscribers: 780, credibility: -15, ethics: -10 }
   }
 ];

@@ -1183,3 +1183,168 @@
   line-height: 1.4;
   color: var(--color-text-muted);
 }
+
+/* ==================== 3D CANVAS & PERSPECTIVES ==================== */
+#col-social {
+  position: relative;
+}
+
+#canvas-3d-container {
+  position: absolute;
+  top: 55px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 55px);
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+#social-feed-list {
+  position: relative;
+  z-index: 2;
+  background-color: transparent !important;
+}
+
+/* 3D Parallax Tilt variables */
+.news-card {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: transform 0.15s ease-out, border-color var(--transition-speed);
+}
+
+.news-card * {
+  transform: translateZ(0px); /* Reset elements depth */
+}
+
+/* ==================== AVATARS DE DESSIN ANIME ==================== */
+.boss-avatar-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-boss-border);
+  object-fit: cover;
+  margin-right: 8px;
+}
+
+.boss-avatar-img-lg {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--color-boss-border);
+  object-fit: cover;
+}
+
+/* ==================== ATTACHEMENTS MEDIA RÉALISTES ==================== */
+
+/* Photo with Title Overlay */
+.media-photo {
+  height: 120px;
+  background-size: cover;
+  background-position: center;
+  border-radius: var(--border-radius-sm);
+  margin-bottom: 12px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  box-shadow: inset 0 -40px 40px rgba(0,0,0,0.8);
+}
+
+.media-photo-overlay {
+  width: 100%;
+  padding: 8px 12px;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.8rem;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  font-family: var(--font-sans);
+}
+
+/* Video Attachment */
+.media-video {
+  height: 120px;
+  background: radial-gradient(#262c37, #13161c);
+  border-radius: var(--border-radius-sm);
+  margin-bottom: 12px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.video-play-btn {
+  font-size: 2.2rem;
+  color: #fff;
+  filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
+  opacity: 0.9;
+  cursor: pointer;
+  z-index: 2;
+  transition: transform 0.2s ease;
+}
+
+.video-play-btn:hover {
+  transform: scale(1.15);
+}
+
+.video-controls-mock {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background-color: rgba(255,255,255,0.15);
+  display: flex;
+  align-items: stretch;
+  z-index: 2;
+}
+
+.video-progress-mock {
+  width: 35%;
+  background-color: var(--color-primary);
+}
+
+.video-time-badge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background-color: rgba(0,0,0,0.7);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 4px;
+  border-radius: 3px;
+  z-index: 2;
+}
+
+/* GIF Attachment */
+.media-gif {
+  height: 120px;
+  background: linear-gradient(135deg, #1e1b4b, #2d0c36);
+  border-radius: var(--border-radius-sm);
+  margin-bottom: 12px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1.5px dashed var(--color-primary);
+}
+
+.gif-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: #000;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 4px;
+  border-radius: 3px;
+  border: 1px solid var(--color-primary);
+  letter-spacing: 0.5px;
+}
+
+
+
+

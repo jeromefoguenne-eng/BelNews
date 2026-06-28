@@ -138,6 +138,8 @@
 
       <!-- COLUMN 3: LE FIL SOCIAL SIMULÉ (BELGOGRAM) -->
       <section class="content-col" id="col-social">
+        <!-- Canvas 3D d'arrière-plan du réseau -->
+        <div id="canvas-3d-container"></div>
         <div class="col-header font-serif">
           <h2>📱 Belgogram</h2>
           <span class="social-live-indicator">● LIVE</span>
@@ -157,7 +159,7 @@
     <div id="boss-chat-widget" class="chat-collapsed">
       <div id="boss-chat-header">
         <span class="boss-status-dot">●</span>
-        <span class="boss-avatar">👨‍💼</span>
+        <img src="assets/avatars/boss.png" class="boss-avatar-img" alt="Patron">
         <span class="boss-title">Directeur BelNews</span>
         <span class="boss-toggle-icon">▲</span>
       </div>
@@ -218,7 +220,9 @@
       <div class="summary-grid">
         <div class="summary-left">
           <div class="summary-dialogue-box">
-            <div class="boss-large-avatar">👨‍💼</div>
+            <div class="boss-large-avatar">
+              <img src="assets/avatars/boss.png" alt="Patron" class="boss-avatar-img-lg">
+            </div>
             <div>
               <h4 id="boss-name-label">Jean-Jacques (Le Patron)</h4>
               <p id="summary-boss-speech">Pas trop mal pour aujourd'hui, gamin.</p>
@@ -269,7 +273,9 @@
       </div>
 
       <div class="boss-firing-comment">
-        <div class="boss-large-avatar">👨‍💼</div>
+        <div class="boss-large-avatar">
+          <img src="assets/avatars/boss.png" alt="Patron" class="boss-avatar-img-lg">
+        </div>
         <p id="boss-firing-speech">"Je t'avais dit que les clics étaient indispensables. Tu as voulu jouer au journaliste éthique, va faire ça ailleurs."</p>
       </div>
 
@@ -343,11 +349,14 @@
   </div>
 
   <!-- LOAD JAVASCRIPT FILES (Order is critical) -->
+  <!-- CDN Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <!-- 1. Data Configs -->
   <script src="data/levels.js"></script>
   <script src="data/patron.js"></script>
   <script src="data/news.js"></script>
   <!-- 2. Logic & Engine -->
+  <script src="js/three-scene.js"></script>
   <script src="js/state.js"></script>
   <script src="js/scoring.js"></script>
   <script src="js/ui.js"></script>
